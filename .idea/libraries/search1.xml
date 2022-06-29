@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="search1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jason-3.1/examples/gold-miners/lib/search.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
