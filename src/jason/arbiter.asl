@@ -5,47 +5,44 @@ step(1).
 choose_first(Head, [Head | Tail]).
 choose_second(Head2, [Head | [Head2 | Tail]], Tail).
 
-check([], "true").
-
-check([Head | Tail], End) :-
-    Head == "$" &
-    End = "false".
-
-check([Head | Tail], End) :-
+check_empty([], "true").
+check_empty(["$" | Tail], "false").
+check_empty([Head | Tail], End) :-
     Head \== "$" &
-    check(Tail, End).
+    check_empty(Tail, End).
+
 
 check_horizontal_for_symbol(Grid, Symbol, Win) :-
-    ((.nth(1, Grid, Symbol) &
-    .nth(2, Grid, Symbol) &
-    .nth(3, Grid, Symbol) ) |
-    (.nth(4, Grid, Symbol) &
-    .nth(5, Grid, Symbol) &
-    .nth(6, Grid, Symbol) ) |
-    (.nth(7, Grid, Symbol) &
-    .nth(8, Grid, Symbol) &
-    .nth(9, Grid, Symbol))) &
+    ((.nth(0, Grid, Symbol) &
+    .nth(1, Grid, Symbol) &
+    .nth(2, Grid, Symbol) ) |
+    (.nth(3, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    .nth(5, Grid, Symbol) ) |
+    (.nth(6, Grid, Symbol) &
+    .nth(7, Grid, Symbol) &
+    .nth(8, Grid, Symbol))) &
     Win = "true".
 
 check_vertical_for_symbol(Grid, Symbol, Win) :-
-    ((.nth(1, Grid, Symbol) &
+    ((.nth(0, Grid, Symbol) &
+    .nth(3, Grid, Symbol) &
+    .nth(6, Grid, Symbol) ) |
+    (.nth(1, Grid, Symbol) &
     .nth(4, Grid, Symbol) &
     .nth(7, Grid, Symbol) ) |
     (.nth(2, Grid, Symbol) &
     .nth(5, Grid, Symbol) &
-    .nth(8, Grid, Symbol) ) |
-    (.nth(3, Grid, Symbol) &
-    .nth(6, Grid, Symbol) &
-    .nth(9, Grid, Symbol))) &
+    .nth(8, Grid, Symbol))) &
     Win = "true".
 
 check_diagonal_for_symbol(Grid, Symbol, Win) :-
-    ((.nth(1, Grid, Symbol) &
-    .nth(5, Grid, Symbol) &
-    .nth(9, Grid, Symbol) ) |
-    (.nth(3, Grid, Symbol) &
-    .nth(5, Grid, Symbol) &
-    .nth(7, Grid, Symbol) )) &
+    ((.nth(0, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    .nth(8, Grid, Symbol) ) |
+    (.nth(2, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    .nth(6, Grid, Symbol) )) &
     Win = "true".
 
 /* Initial Goal */
@@ -54,27 +51,47 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
 
 /* Plans */
 
-+!winner(Grid, Player, OtherPlayer, Winner) 
++!winner(Grid, Player, OtherPlayer, Winner, Win) 
    : game(Player, Symbol1, OtherPlayer, Symbol2)
     <- if(check_horizontal_for_symbol(Grid, Symbol1, Win) & Win == "true") {
         Winner = Player;
+        Win = "true";
+        .print("THERE'S A WINNER!!!")
     } else {
         if(check_vertical_for_symbol(Grid, Symbol1, Win) & Win == "true") {
             Winner = Player;
+            Win = "true";
+            .print("THERE'S A WINNER!!!")
         } else {
             if(check_diagonal_for_symbol(Grid, Symbol1, Win) & Win == "true") {
                 Winner = Player;
+                Win = "true";
+                .print("THERE'S A WINNER!!!")
             } else {
                 if(check_horizontal_for_symbol(Grid, Symbol2, Win) & Win == "true") {
                     Winner = OtherPlayer;
+                    Win = "true";
+                    .print("THERE'S A WINNER!!!")
                 } else {
                     if(check_vertical_for_symbol(Grid, Symbol2, Win) & Win == "true") {
                         Winner = OtherPlayer;
+                        Win = "true";
+                        .print("THERE'S A WINNER!!!")
                     } else {
                         if(check_diagonal_for_symbol(Grid, Symbol2, Win) & Win == "true") {
                             Winner = OtherPlayer;
+                            Win = "true";
+                            .print("THERE'S A WINNER!!!")
                         } else {
-                            Winner = "tie";
+                            if(check_empty(Grid, Empty) & Empty == "true") {
+                                Winner = "tie";
+                                Win = "true";
+                                .print("THERE'S A TIE!!!")
+                            } else {
+                                Winner = "nobody";
+                                Win = "false";
+                                .print("THE GAME MUST GO ON")
+                            }
                         }
                     }
                 }
@@ -93,7 +110,7 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
 +!start_game
     : step(1)
     <- .print("Starting game");
-       .wait(500);
+       .wait(1000);
        .findall(Player, player(Player), Players);
        .length(Players, PlayersLength);
        -step(1); +step(2);
@@ -120,8 +137,11 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
        .send(Second, tell, proposal(First, "false", "O"));
        !choose_player(RemainingPlayers, PL - 2).
 
-+!check_end_game(Grid, OtherPlayer)[source(Player)]
-    : step(3) & check(Grid, End) & End == "true"
-    <- !winner(Grid, Player, OtherPlayer, Winner);
-       .send(Player, tell, end_game(Winner));
-       .send(OtherPlayer, tell, end_game(Winner)).
++check_end_game(Grid, OtherPlayer)[source(Player)]
+    : step(X) & X >= 3
+    <-  !winner(Grid, Player, OtherPlayer, Winner, Win);
+        .print("A send a message to ", OtherPlayer, " with message the winner is: ", Winner);
+        .send(OtherPlayer, tell, end_game(Winner, Win, X));
+        -check_end_game(Grid, OtherPlayer);
+        -step(X);
+        +step(X + 1).
