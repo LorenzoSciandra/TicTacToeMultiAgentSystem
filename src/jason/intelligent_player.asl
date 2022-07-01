@@ -22,6 +22,126 @@ delete_element([Head|Tail], X, NewMosse):-
 nuova_head(Head, PrevHead, NewHead) :-
     append(PrevHead, [Head], NewHead).
 
+check_horizontal_for_symbol_win1(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(1, Grid, Symbol) &
+    Spot = 3.
+
+check_horizontal_for_symbol_win2(Grid, Symbol, Spot) :-
+    .nth(1, Grid, Symbol) &
+    .nth(2, Grid, Symbol) &
+    Spot = 1.
+
+check_horizontal_for_symbol_win3(Grid, Symbol, Spot) :-
+    .nth(3, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    Spot = 6.
+
+check_horizontal_for_symbol_win4(Grid, Symbol, Spot) :-
+    .nth(4, Grid, Symbol) &
+    .nth(5, Grid, Symbol) &
+    Spot = 4.
+
+check_horizontal_for_symbol_win5(Grid, Symbol, Spot) :-
+    .nth(6, Grid, Symbol) &
+    .nth(7, Grid, Symbol) &
+    Spot = 9.
+
+check_horizontal_for_symbol_win6(Grid, Symbol, Spot) :-
+    .nth(7, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 7.
+
+check_vertical_for_symbol_win1(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(3, Grid, Symbol) &
+    Spot = 7.
+
+check_vertical_for_symbol_win2(Grid, Symbol, Spot) :-
+    .nth(3, Grid, Symbol) &
+    .nth(6, Grid, Symbol) &
+    Spot = 1.
+
+check_vertical_for_symbol_win3(Grid, Symbol, Spot) :-
+    .nth(1, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    Spot = 8.
+
+check_vertical_for_symbol_win4(Grid, Symbol, Spot) :-
+    .nth(4, Grid, Symbol) &
+    .nth(7, Grid, Symbol) &
+    Spot = 2.
+
+check_vertical_for_symbol_win5(Grid, Symbol, Spot) :-
+    .nth(2, Grid, Symbol) &
+    .nth(5, Grid, Symbol) &
+    Spot = 9.
+
+check_vertical_for_symbol_win6(Grid, Symbol, Spot) :-
+    .nth(5, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 3.
+
+check_diagonal_for_symbol_win1(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    Spot = 9.
+
+check_diagonal_for_symbol_win2(Grid, Symbol, Spot) :-
+    .nth(4, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 1.
+
+check_diagonal_for_symbol_win3(Grid, Symbol, Spot) :-
+    .nth(2, Grid, Symbol) &
+    .nth(4, Grid, Symbol) &
+    Spot = 7.
+
+check_diagonal_for_symbol_win4(Grid, Symbol, Spot) :-
+    .nth(4, Grid, Symbol) &
+    .nth(6, Grid, Symbol) &
+    Spot = 3.
+
+check_void_for_symbol_win1(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(2, Grid, Symbol) &
+    Spot = 2.
+
+check_void_for_symbol_win2(Grid, Symbol, Spot) :-
+    .nth(3, Grid, Symbol) &
+    .nth(5, Grid, Symbol) &
+    Spot = 5.
+
+check_void_for_symbol_win3(Grid, Symbol, Spot) :-
+    .nth(6, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 8.
+
+check_void_for_symbol_win4(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(6, Grid, Symbol) &
+    Spot = 4.
+
+check_void_for_symbol_win5(Grid, Symbol, Spot) :-
+    .nth(1, Grid, Symbol) &
+    .nth(7, Grid, Symbol) &
+    Spot = 5.
+
+check_void_for_symbol_win6(Grid, Symbol, Spot) :-
+    .nth(2, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 6.
+
+check_void_for_symbol_win7(Grid, Symbol, Spot) :-
+    .nth(0, Grid, Symbol) &
+    .nth(8, Grid, Symbol) &
+    Spot = 5.
+
+check_void_for_symbol_win8(Grid, Symbol, Spot) :-
+    .nth(2, Grid, Symbol) &
+    .nth(6, Grid, Symbol) &
+    Spot = 5.
+
 /* Initial goal */
 
 !register.
@@ -103,9 +223,10 @@ nuova_head(Head, PrevHead, NewHead) :-
         !notifica_mossa(Spot).
 
 +!decidi_mossa(Mosse, Spot)
-    : mosse_possibili(MP)
-    <-  .length(MP, MPL);
-        TurnoCorrente = 9 - MPL;
+    : true
+    <-  .length(Mosse, MPL);
+        TurnoCorrente = 10 - MPL;
+        .print("Turno corrente: ", TurnoCorrente);
         !decidi_mossa_turno(Mosse, Spot, TurnoCorrente).
 
 /* Siamo al primo turno: vogliamo sempre iniziare con un corner */
@@ -116,7 +237,7 @@ nuova_head(Head, PrevHead, NewHead) :-
 /* Siamo al secondo turno: se il centro non e' occupato, dobbiamo occuparlo, altrimenti perdiamo sicuro! */
 +!decidi_mossa_turno(Mosse, Spot, TurnoCorrente)
     : TurnoCorrente == 2
-    <- if(.member(Mosse, 5)) {
+    <- if(.member(5, Mosse)) {
             Spot = 5;
         } else {
             .random([1,3,7,9], Spot);
@@ -125,10 +246,10 @@ nuova_head(Head, PrevHead, NewHead) :-
 /* Siamo al terzo turno: vogliamo scegliere, se siamo in un corner, di occupare il corner opposto al mio */
 +!decidi_mossa_turno(Mosse, Spot, TurnoCorrente)
     : TurnoCorrente == 3 & symbol(MySymbol) & grid(Grid)
-    <- .nth(1, Grid, SymbolFound1);
-       .nth(3, Grid, SymbolFound3);
-       .nth(7, Grid, SymbolFound7);
-       .nth(9, Grid, SymbolFound9);
+    <- .nth(0, Grid, SymbolFound1); /* nth sarebbe n - 1 */
+       .nth(2, Grid, SymbolFound3);
+       .nth(6, Grid, SymbolFound7);
+       .nth(8, Grid, SymbolFound9);
         if(SymbolFound1 == MySymbol & SymbolFound7 == "$") {
             Spot = 7;
         } elif(SymbolFound3 == MySymbol & SymbolFound9 == "$") {
@@ -143,8 +264,58 @@ nuova_head(Head, PrevHead, NewHead) :-
         }.
 
 +!decidi_mossa_turno(Mosse, Spot, TurnoCorrente)
-    : TurnoCorrente >= 4 & symbol(MySymbol)
-    <- .random(Mosse, Spot). /* TODO: fare un filler per unire i corner */
+    : TurnoCorrente >= 4 & symbol(MySymbol) & grid(Grid)
+    <- if(check_horizontal_for_symbol_win1(Grid, MySymbol, ProposedSpot)) {
+            Spot = ProposedSpot;
+        } elif(check_horizontal_for_symbol_win2(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_horizontal_for_symbol_win3(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_horizontal_for_symbol_win4(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_horizontal_for_symbol_win5(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_horizontal_for_symbol_win6(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win1(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win2(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win3(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win4(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win5(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_vertical_for_symbol_win6(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_diagonal_for_symbol_win1(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_diagonal_for_symbol_win2(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_diagonal_for_symbol_win3(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_diagonal_for_symbol_win4(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win1(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win2(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win3(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win4(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win5(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win6(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win7(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } elif(check_void_for_symbol_win8(Grid, MySymbol, ProposedSpot) & .member(ProposedSpot, Mosse)) {
+            Spot = ProposedSpot;
+        } else {
+            .random(Mosse, Spot);
+        }.
 
 +!move_to(X)
     : step(S) & S >= 3 & grid(G) & symbol(Symbol) & .my_name(Me)
