@@ -1,9 +1,5 @@
 /* Facts */
-
 step(1).
-
-choose_first(Head, [Head | Tail]).
-choose_second(Head2, [Head | [Head2 | Tail]], Tail).
 
 check_empty([], "true").
 check_empty(["$" | Tail], "false").
@@ -46,12 +42,47 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
 
 /* Initial Goal */
 
-!start_game.
+!register.
 
 /* Plans */
 
+
++!register
+    : true
+    <-  .df_register("arbiter");
+        .df_subscribe("master_arbiter");
+        !want_to_arbiter.
+
++!want_to_arbiter
+    : step(Step) & Step == 1 & .my_name(Me)
+    <-  .print("Agent ", Me, ": I want to arbiter!");
+        .df_search("master_arbiter", MasterArbiters);
+        .nth(0, MasterArbiters, MasterArbiter);
+        +master_arbiter(MasterArbiter);
+        Msg = "I want to arbiter!";
+        .send(MasterArbiter, tell, want_to_arbiter(Msg));
+        -step(1); +step(2).
+
++proposal(FirstPlayer, SecondPlayer, Stage)[source(Arb)]
+    :  step(Step) & Step==2 & master_arbiter(MasterArbiter) & .my_name(Me) & MasterArbiter == Arb
+    <-  Msg1 = "I accept the proposal";
+        .send(MasterArbiter, tell, proposal_accepted(Msg1, Stage));
+        .print("Agent ", Me, ". I will arbiter the match between ", FirstPlayer, " and ", SecondPlayer, ". At round ", Stage);
+        +game(FirstPlayer, "X", SecondPlayer, "O", 0);
+        +game(SecondPlayer, "O", FirstPlayer, "X", 0);
+        +stage(Stage);
+        -step(2);
+        +step(3);
+        .send(FirstPlayer, tell, proposal(SecondPlayer, "true", "X", Stage));
+        .send(SecondPlayer, tell, proposal(FirstPlayer, "false", "O", Stage)).
+
+
++proposal_accepted(Msg, Stage)[source(Player)]
+    : stage(MyStage) & Stage==MyStage
+    <-  .print("Proposal accepted by the player ", Player, " with message: ", Msg, " at stage: ", Stage).
+
 +!winner(Grid, Player, OtherPlayer, Winner, Win) 
-   : game(Player, Symbol1, OtherPlayer, Symbol2)
+   : game(Player, Symbol1, OtherPlayer, Symbol2, Turn)
     <- if(check_horizontal_for_symbol(Grid, Symbol1, Win) & Win == "true") {
         Winner = Player;
         Win = "true";
@@ -97,56 +128,38 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
             }
         }
     }.
-
-+want_to_play_too(Msg)[source(Player)]
-    : step(1)
-    <- +player(Player).
-
-+proposal_accepted(Msg)[source(Player)]
-    : true
-    <- .print("Proposal accepted by ", Player, " with message: ", Msg).
-
-+!start_game
-    :   step(1)
-    <-  .print("Starting game");
-        .df_register("arbiter");
-        .wait(1000);
-        .findall(Player, player(Player), Players);
-        .length(Players, PlayersLength);
-        -step(1); +step(2);
-        !choose_player(Players, PlayersLength);
-        -step(2); +step(3).
        
++check_end_game(Grid, Player, OtherPlayer, Stage)
+    : step(MyStep) & MyStep >= 3 & stage(MyStage) & Stage == MyStage & game(Player, Symbol1, OtherPlayer, Symbol2, Turn)
+    <-  
+        !winner(Grid, Player, OtherPlayer, Winner, Win);
+        -game(Player, Symbol1, OtherPlayer, Symbol2, Turn);
+        -game(OtherPlayer, Symbol2, Player, Symbol1, Turn);
+        +game(Player, Symbol1, OtherPlayer, Symbol2, Turn+1);
+        +game(OtherPlayer, Symbol2, Player, Symbol1, Turn+1);
+        .send(OtherPlayer, tell, end_game(Winner, Win, MyStage, Turn+1));
+        !save_winner(Winner,Win);
+        -step(MyStep);
+        +step(MyStep+1).
 
-+!choose_player(Players, PL)
-    : step(2) & 
-      PL == 2 &
-      choose_first(First, Players) & 
-      choose_second(Second, Players, _)
-    <- .send(First, tell, proposal(Second, "true", "X"));
-       .send(Second, tell, proposal(First, "false", "O"));
-       +game(First, "X", Second, "O");
-       +game(Second, "O", First, "X").
++!save_winner(Winner,Win)
+    : Win == "false" | (Win == "true" & Winner == "tie")
+    <- true.
 
-+!choose_player(Players, PL)
-    :   step(2) & PL >= 2 & PL mod 2 == 0 &
-        choose_first(First, Players) & choose_second(Second, Players, RemainingPlayers)
-    <-  .send(First, tell, proposal(Second, "true", "X"));
-        .send(Second, tell, proposal(First, "false", "O"));
-        +game(First, "X", Second, "O");
-        +game(Second, "O", First, "X");
-        +torneo(First, Second);
-        !choose_player(RemainingPlayers, PL - 2).
++!save_winner(Winner,Win)
+    : Win == "true" & Winner \== "tie" & stage(Stage)
+    <-  +winner(Winner, Stage);
+        .print("THE WINNER IS: ", Winner);
+        !notify_master.
 
-+!choose_player(Players, PL)
-    :   step(2) & PL >= 2 & PL mod 2 == 1
-    <- .print("THE TOURNAMENT MUST HAVE EVEN PLAYERS").
++!notify_master
+    : winner(Winner, Stage) & master_arbiter(MasterArbiter) & game(Winner, _, OtherPlayer, _, _) & .my_name(Me)
+    <-  .send(MasterArbiter, tell, theres_a_winner(Winner, Stage, OtherPlayer)).
 
-+check_end_game(Grid, OtherPlayer)[source(Player)]
-    : step(X) & X >= 3
-    <-  !winner(Grid, Player, OtherPlayer, Winner, Win);
-        //.print("A send a message to ", OtherPlayer, " with message the winner is: ", Winner);
-        .send(OtherPlayer, tell, end_game(Winner, Win, X));
-        -check_end_game(Grid, OtherPlayer);
-        -step(X);
-        +step(X + 1).
++new_game(Stage)[source(Arb)]
+    :   stage(MyStage) & MyStage+1 == Stage & master_arbiter(Arbiter) & Arbiter == Arb & step(MyStep)
+        & winner(Winner, MyStage)
+    <-  .print("I'm getting ready to play a new game");
+        -step(MyStep);
+        +step(2);
+        .send(Winner,tell,new_game(Stage)).
