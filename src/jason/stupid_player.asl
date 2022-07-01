@@ -2,7 +2,6 @@
 
 /* Prepariamo la griglia per il gioco: 9x9  dove $ vuol dire una cella vuota */
 grid(["$","$","$","$","$","$","$","$","$"]).
-arbiter(arbiter).
 /* Lo step ci servirà per passare da uno stato di proposta ad uno di accettazione per poi giocare */
 step(1).
 mosse_possibili([1,2,3,4,5,6,7,8,9]).
@@ -25,14 +24,24 @@ nuova_head(Head, PrevHead, NewHead) :-
 
 /* Initial goal */
 
-!want_to_play.
+!register.
 
 /* Plans */
 /* Comunichiamo all'arbitro che vogliamo giocare */
+
++!register
+    : true
+    <-  .df_register("stupid_player");
+        .df_subscribe("arbiter");
+        !want_to_play.
+
 +!want_to_play
-    : arbiter(Arbiter) & step(X) & X = 1 & .my_name(Me)
-    <- .print("Agent ", Me, ": I want to play!");
-       Msg = "I want to play!";
+    : step(X) & X = 1 & .my_name(Me)
+    <-  .print("Agent ", Me, ": I want to play!");
+        .df_search("arbiter", Arbiters);
+        .nth(0, Arbiters, Arbiter);
+        +arbiter(Arbiter);
+        Msg = "I want to play!";
        .send(Arbiter, tell, want_to_play_too(Msg));
        -step(1); +step(2).
 
@@ -48,16 +57,8 @@ nuova_head(Head, PrevHead, NewHead) :-
         -proposal(OtherPlayer);
         -step(2); +step(3);
         if(GoFirst == "true") {
-            !prima_mossa;
+            !fai_mossa;
         }.
-
-/* Siamo primi nelle mosse: facciamo la mossa random, aggiorniamo le mosse possibili e notifichiamo la mossa all'arbitro */
-+!prima_mossa
-    :   mosse_possibili(Mosse)
-    <-  .random(Mosse,Mossa); /* Mossa random tra 1 e 9 */
-        !move_to(Mossa);
-        !update_mosse_possibili(Mossa); 
-        !notifica_mossa(Mossa).
 
 /* Aggiorniamo le mosse che possiamo fare, per non sovrascrivere mosse già esistenti */
 +!update_mosse_possibili(Mossa)
@@ -85,12 +86,13 @@ nuova_head(Head, PrevHead, NewHead) :-
         -end_game(Winner, Win).
 
 +end_game(Winner, Win, Step)[source(Source)]
-    : Win == "true" & Winner \== "tie" & arbiter(Arbiter) & Arbiter == Source
-    <-  .print("The game ended with a winner: ", Winner, " at iteration ", Step).
+    : Win == "true" & Winner \== "tie" & arbiter(Arbiter) & Arbiter == Source & .my_name(Me)
+    <-  .print("THE GAME ENDED WITH A WINNER: ", Winner).
+        //.send(Arbiter, tell, winner_game(G, OtherPlayer)).
 
 +end_game(Winner, Win, Step)[source(Source)]
     : Win == "true" & Winner == "tie" & arbiter(Arbiter) & Arbiter == Source
-    <- .print("The game ended with a tie at iteration ", Step, " WE MUST REPEAT");
+    <- .print("THE GAME ENDED WITH A TIE WE MUST REPEAT THE GAME");
         !repeat_game.
 
 +!fai_mossa
@@ -122,7 +124,7 @@ nuova_head(Head, PrevHead, NewHead) :-
         +grid(["$","$","$","$","$","$","$","$","$"]);
         +mosse_possibili([1,2,3,4,5,6,7,8,9]);
         .send(OtherPlayer, tell, reset_gioco);
-        !prima_mossa.
+        !fai_mossa.
 
 +reset_gioco
     : grid(G) & mosse_possibili(Mosse)

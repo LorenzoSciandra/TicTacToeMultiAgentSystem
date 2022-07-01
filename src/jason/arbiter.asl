@@ -11,7 +11,6 @@ check_empty([Head | Tail], End) :-
     Head \== "$" &
     check_empty(Tail, End).
 
-
 check_horizontal_for_symbol(Grid, Symbol, Win) :-
     ((.nth(0, Grid, Symbol) &
     .nth(1, Grid, Symbol) &
@@ -108,14 +107,15 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
     <- .print("Proposal accepted by ", Player, " with message: ", Msg).
 
 +!start_game
-    : step(1)
-    <- .print("Starting game");
-       .wait(1000);
-       .findall(Player, player(Player), Players);
-       .length(Players, PlayersLength);
-       -step(1); +step(2);
-       !choose_player(Players, PlayersLength);
-       -step(2); +step(3).
+    :   step(1)
+    <-  .print("Starting game");
+        .df_register("arbiter");
+        .wait(1000);
+        .findall(Player, player(Player), Players);
+        .length(Players, PlayersLength);
+        -step(1); +step(2);
+        !choose_player(Players, PlayersLength);
+        -step(2); +step(3).
        
 
 +!choose_player(Players, PL)
@@ -129,18 +129,23 @@ check_diagonal_for_symbol(Grid, Symbol, Win) :-
        +game(Second, "O", First, "X").
 
 +!choose_player(Players, PL)
-    : step(2) & 
-      PL >= 2 &
-      choose_first(First, Players) & 
-      choose_second(Second, Players, RemainingPlayers)
-    <- .send(First, tell, proposal(Second, "true", "X"));
-       .send(Second, tell, proposal(First, "false", "O"));
-       !choose_player(RemainingPlayers, PL - 2).
+    :   step(2) & PL >= 2 & PL mod 2 == 0 &
+        choose_first(First, Players) & choose_second(Second, Players, RemainingPlayers)
+    <-  .send(First, tell, proposal(Second, "true", "X"));
+        .send(Second, tell, proposal(First, "false", "O"));
+        +game(First, "X", Second, "O");
+        +game(Second, "O", First, "X");
+        +torneo(First, Second);
+        !choose_player(RemainingPlayers, PL - 2).
+
++!choose_player(Players, PL)
+    :   step(2) & PL >= 2 & PL mod 2 == 1
+    <- .print("THE TOURNAMENT MUST HAVE EVEN PLAYERS").
 
 +check_end_game(Grid, OtherPlayer)[source(Player)]
     : step(X) & X >= 3
     <-  !winner(Grid, Player, OtherPlayer, Winner, Win);
-        .print("A send a message to ", OtherPlayer, " with message the winner is: ", Winner);
+        //.print("A send a message to ", OtherPlayer, " with message the winner is: ", Winner);
         .send(OtherPlayer, tell, end_game(Winner, Win, X));
         -check_end_game(Grid, OtherPlayer);
         -step(X);
