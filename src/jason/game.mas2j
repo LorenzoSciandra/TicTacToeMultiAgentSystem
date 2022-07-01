@@ -1,6 +1,7 @@
 MAS game {
     infrastructure: Centralised
 
-    agents: stupid_player #4;
+    agents: stupid_player #1;
+        intelligent_player #1;
         arbiter;
 }
