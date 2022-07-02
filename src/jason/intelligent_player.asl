@@ -145,7 +145,7 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
         } elif(SymbolFound9 == MySymbol & SymbolFound3 == "$") {
             Spot = 1;
         } else {
-            /* Altrimenti, se il corner è occupato, scegliamo il centro se possibile altrimenti random */
+            /* Altrimenti, se il corner opposto è occupato, scegliamo il centro se possibile altrimenti random */
             if(.member(5, Mosse)) {
                 Spot = 5;
             } else {
