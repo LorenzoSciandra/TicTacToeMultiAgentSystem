@@ -155,7 +155,7 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
                 Spot = 5;
             } else {
                 .random(Mosse, Spot);
-            }.
+            }
         }.
 
 +!decidi_mossa_turno(Mosse, Spot, TurnoCorrente)
