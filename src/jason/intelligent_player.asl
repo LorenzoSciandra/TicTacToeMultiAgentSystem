@@ -37,6 +37,8 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
     vittoria(X,Y,Z) &
     mossa(X) &
     mossa(Y) &
+    mosse_possibili(Mosse) &
+    .member(Z, Mosse) &
     Mossa=Z &
     Win="true".
 
@@ -44,6 +46,8 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
     vittoria(X,Y,Z) &
     mossa(X) &
     mossa(Z) &
+    mosse_possibili(Mosse) &
+    .member(Y, Mosse) &
     Mossa=Y &
     Win="true".
 
@@ -51,6 +55,8 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
     vittoria(X,Y,Z) &
     mossa(Y) &
     mossa(Z) &
+    mosse_possibili(Mosse) &
+    .member(X, Mosse) &
     Mossa=X &
     Win="true".
 
@@ -111,7 +117,6 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
     : true
     <-  .length(Mosse, MPL);
         TurnoCorrente = 10 - MPL;
-        .print("Turno corrente: ", TurnoCorrente);
         !decidi_mossa_turno(Mosse, Spot, TurnoCorrente).
 
 /* Siamo al primo turno: vogliamo sempre iniziare con un corner */
