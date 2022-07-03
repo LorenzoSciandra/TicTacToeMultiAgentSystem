@@ -26,7 +26,11 @@ public class ReceiveOpponentBehaviour extends OneShotBehaviour {
             reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
 			reply.setContent("OK, I accept to play the game against " + ((StupidPlayerAgent) getAgent()).getOpponentAID().getName() + " with arbiter " + ((StupidPlayerAgent) getAgent()).getArbiterAID().getName() + ".");
             getAgent().send(reply);
-            getAgent().addBehaviour(new PlayBehaviour());
+            if (((StupidPlayerAgent) getAgent()).getStart()) {
+                getAgent().addBehaviour(new PlayBehaviour());
+            } else {
+                getAgent().addBehaviour(new ReceiveMessageBehaviour());
+            }
         } else {
             block();
         }

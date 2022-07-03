@@ -84,6 +84,31 @@ public class Grid {
         return false;
     }
 
+    public String getWinner(){
+        if (isWinner()) {
+            if (grid[0][0].equals(grid[1][1]) && grid[1][1].equals(grid[2][2])) {
+                return grid[0][0];
+            }
+            if (grid[0][2].equals(grid[1][1]) && grid[1][1].equals(grid[2][0])) {
+                return grid[0][2];
+            }
+            for (int i = 0; i < 3; i++) {
+                if (grid[i][0].equals(grid[i][1]) && grid[i][1].equals(grid[i][2])) {
+                    return grid[i][0];
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                if (grid[0][i].equals(grid[1][i]) && grid[1][i].equals(grid[2][i])) {
+                    return grid[0][i];
+                }
+            }
+        }
+        else{
+            return " ";
+        }
+        return null;
+    }
+
     // Check if a move is legal
     public boolean isLegal(int row, int col) {
         return freeCells.contains((Integer) (row * 3 + col));

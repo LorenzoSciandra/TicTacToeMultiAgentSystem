@@ -14,11 +14,14 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 public class ArbiterAgent extends Agent{
     
+    private AID masterArbiter = null;
     private AID firstPlayer = null;
     private AID secondPlayer = null;
     private AID winner = null;
     private int round = 0;
     private int turno = 0;
+    private String firstSymbol = "X";
+    private String secondSymbol = "O";
 
     protected void setup() {
         // Register
@@ -52,7 +55,52 @@ public class ArbiterAgent extends Agent{
         this.secondPlayer = secondPlayer;
     }
 
-    public void setNumRounds(int numRounds) {
-        this.round = numRounds;
+    public void setNumRound(int numRound) {
+        this.round = numRound;
     }
+
+    public void nextTurn() {
+        this.turno++;
+    }
+
+    public int getTurno() {
+        return this.turno;
+    }
+
+    public int getRound() {
+        return this.round;
+    }
+
+    public AID getWinner() {
+        return this.winner;
+    }
+
+    public void setWinner(AID winner) {
+        this.winner = winner;
+    }
+
+    public AID getMasterArbiter() {
+        return this.masterArbiter;
+    }
+
+    public void setMasterArbiter(AID masterArbiter) {
+        this.masterArbiter = masterArbiter;
+    }
+
+    public String getFirstSymbol() {
+        return this.firstSymbol;
+    }
+
+    public void setFirstSymbol(String firstSymbol) {
+        this.firstSymbol = firstSymbol;
+    }
+
+    public String getSecondSymbol() {
+        return this.secondSymbol;
+    }
+
+    public void setSecondSymbol(String secondSymbol) {
+        this.secondSymbol = secondSymbol;
+    }
+    
 }

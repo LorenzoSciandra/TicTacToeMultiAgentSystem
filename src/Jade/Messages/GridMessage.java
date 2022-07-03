@@ -7,12 +7,14 @@ import jade.lang.acl.ACLMessage;
 public class GridMessage extends ACLMessage {
     private Grid grid;
     private Boolean theresAWinner;
-    private AID winner;
+    private String winnerSymbol;
+    private AID winnerAID;
 
     public GridMessage(int performative, Grid grid) {
         super(performative);
         this.grid = grid;
         this.theresAWinner = grid.isWinner();
+        this.winnerSymbol = grid.getWinner();
     }
 
     public Grid getGrid() {
@@ -27,15 +29,17 @@ public class GridMessage extends ACLMessage {
         return theresAWinner;
     }
 
-    public void setTheresAWinner(Boolean theresAWinner) {
-        this.theresAWinner = theresAWinner;
+    public String getWinnerSymbol() {
+        return winnerSymbol;
     }
 
-    public AID getWinner() {
-        return winner;
+    public AID getwinnerAid() {
+        return winnerAID;
     }
 
-    public void setWinner(AID winner) {
-        this.winner = winner;
+    public void setWinnerAID(AID winnerAID) {
+        this.winnerAID = winnerAID;
     }
+
+
 }

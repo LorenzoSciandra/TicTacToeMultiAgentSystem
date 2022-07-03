@@ -1,6 +1,7 @@
 package Jade.Behaviours.Arbiter;
 import jade.core.behaviours.*;
 import Jade.Messages.ProposalToArbiter;
+import Jade.Messages.ProposalToPlayer;
 import Jade.Agents.ArbiterAgent;
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -19,12 +20,20 @@ public class WaitProposalArbiterBehaviour extends OneShotBehaviour {
             // CFP Message received. Process it
             ((ArbiterAgent) getAgent()).setFirstPlayer(msg.getFirstPlayer());
             ((ArbiterAgent) getAgent()).setSecondPlayer(msg.getSecondPlayer());
-            ((ArbiterAgent) getAgent()).setNumRounds(msg.getRound());
+            ((ArbiterAgent) getAgent()).setNumRound(msg.getRound());
+            ((ArbiterAgent) getAgent()).setMasterArbiter(msg.getSender());
 
             ACLMessage reply = msg.createReply();
             reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
 			reply.setContent("OK, I accept to check the game between " + ((ArbiterAgent) getAgent()).getFirstPlayer().getName() + " and " + ((ArbiterAgent) getAgent()).getSecondPlayer().getName() + ".");
             getAgent().send(reply);
+
+            ProposalToPlayer firstPlayerMsg = new ProposalToPlayer(ACLMessage.PROPOSE, msg.getSecondPlayer(), true, "X");
+            ProposalToPlayer secondPlayerMsg = new ProposalToPlayer(ACLMessage.PROPOSE, msg.getFirstPlayer(), false, "O");
+            firstPlayerMsg.addReceiver(msg.getFirstPlayer());
+            secondPlayerMsg.addReceiver(msg.getSecondPlayer());
+            getAgent().send(firstPlayerMsg);
+            getAgent().send(secondPlayerMsg);
             getAgent().addBehaviour(new GameToCheckBehaviour());
         }
         else {

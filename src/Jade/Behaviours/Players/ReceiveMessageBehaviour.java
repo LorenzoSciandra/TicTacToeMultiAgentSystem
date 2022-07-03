@@ -17,13 +17,13 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
 
     public void action() {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-        GridMessage msg = (GridMessage) myAgent.receive(mt);
-        if (msg != null && msg.getSender()== ((StupidPlayerAgent) getAgent()).getArbiterAID() ) {
+        GridMessage msg = (GridMessage) getAgent().receive(mt);
+        if (msg != null) {
 
           if(msg.getTheresAWinner()){
             System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " received the message that the game is over.");
 
-            if(msg.getWinner() == ((StupidPlayerAgent) getAgent()).getAID()){
+            if(msg.getWinnerSymbol() == ((StupidPlayerAgent) getAgent()).getSymbol()){
               System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " won the game.");
               ((StupidPlayerAgent) getAgent()).setGrid(new Grid());
               getAgent().addBehaviour(new ReceiveOpponentBehaviour());
