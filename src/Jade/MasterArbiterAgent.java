@@ -22,9 +22,9 @@ public class MasterArbiterAgent extends Agent{
         // Wait that all agents are registered
         doWait(5000);
         // Add the behaviour to receive the messages to play and to arbiter
-        addBehaviour(new GetPlayersArbiters());
+        addBehaviour(new GetPlayersArbitersBehaviour());
         // Start the Game
-        addBehaviour(new PlayGame(arbiterAgents, playerAgents));
+        addBehaviour(new PlayGameBehaviour(arbiterAgents, playerAgents));
     }
 
     protected void takeDown() {

@@ -7,7 +7,7 @@ import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class PlayGame extends Behaviour{
+public class PlayGameBehaviour extends Behaviour{
 
     private AID[] arbiterAgents;
     private AID[] playerAgents;
@@ -16,11 +16,10 @@ public class PlayGame extends Behaviour{
     private int numRounds;
     private int numRoundsPlayed;
     private List<List <AID>> winnersRound;
-    private Boolean nextRound;
     private int step;
     private MessageTemplate mt;
 
-    public PlayGame(AID[] arbiterAgents, AID[] playerAgents) {
+    public PlayGameBehaviour(AID[] arbiterAgents, AID[] playerAgents) {
         this.arbiterAgents = arbiterAgents;
         this.playerAgents = playerAgents;
         this.numPlayers = playerAgents.length;

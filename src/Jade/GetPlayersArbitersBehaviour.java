@@ -6,7 +6,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 
-public class GetPlayersArbiters extends OneShotBehaviour {
+public class GetPlayersArbitersBehaviour extends OneShotBehaviour {
 
 	private AID[] arbiterAgents;
     private AID[] playerAgents;
