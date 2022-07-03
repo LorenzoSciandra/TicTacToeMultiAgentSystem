@@ -20,6 +20,11 @@ public class WaitProposalArbiterBehaviour extends OneShotBehaviour {
             ((ArbiterAgent) getAgent()).setFirstPlayer(msg.getFirstPlayer());
             ((ArbiterAgent) getAgent()).setSecondPlayer(msg.getSecondPlayer());
             ((ArbiterAgent) getAgent()).setNumRounds(msg.getRound());
+
+            ACLMessage reply = msg.createReply();
+            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+			reply.setContent("OK, I accept to check the game between " + ((ArbiterAgent) getAgent()).getFirstPlayer().getName() + " and " + ((ArbiterAgent) getAgent()).getSecondPlayer().getName() + ".");
+            getAgent().send(reply);
             getAgent().addBehaviour(new GameToCheckBehaviour());
         }
         else {

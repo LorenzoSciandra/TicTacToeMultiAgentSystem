@@ -17,7 +17,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.function.Consumer;
 
-public class StupidPlayer extends Agent {
+public class StupidPlayerAgent extends Agent {
     private Grid myGrid;
     private AID myArbiter;
     private AID myOpponent;
