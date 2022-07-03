@@ -22,7 +22,6 @@ public class StupidPlayerAgent extends Agent {
     private AID myArbiter;
     private AID myOpponent;
     private String mySymbol;
-    private MessageTemplate mt;
     private Boolean start;
 
     protected void setup() {

@@ -21,7 +21,7 @@ public class ReceiveOpponentBehaviour extends OneShotBehaviour {
             ((StupidPlayerAgent) getAgent()).setArbiter(msg.getSender());
             ((StupidPlayerAgent) getAgent()).setSymbol(msg.getSymbol());
             ((StupidPlayerAgent) getAgent()).setStart(msg.isFirstToPlay());
-            System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " received the opponent " + ((StupidPlayerAgent) getAgent()).getOpponentAID().getName() + " and the arbiter " + ((StupidPlayerAgent) getAgent()).getArbiterAID().getName() + ".");
+            System.out.println("StupidPlayerAgent " + getAgent().getAID().getName() + " received the opponent " + ((StupidPlayerAgent) getAgent()).getOpponentAID().getName() + " and the arbiter " + ((StupidPlayerAgent) getAgent()).getArbiterAID().getName() + ".");
             ACLMessage reply = msg.createReply();
             reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
 			reply.setContent("OK, I accept to play the game against " + ((StupidPlayerAgent) getAgent()).getOpponentAID().getName() + " with arbiter " + ((StupidPlayerAgent) getAgent()).getArbiterAID().getName() + ".");

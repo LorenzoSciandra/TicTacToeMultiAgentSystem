@@ -25,7 +25,8 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
 
             if(msg.getWinner() == ((StupidPlayerAgent) getAgent()).getAID()){
               System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " won the game.");
-              // TODO: NUOVO COMPORTAMENTO PER RESETTARE LA GRID E RIMETTERSI IN ATTESA
+              ((StupidPlayerAgent) getAgent()).setGrid(new Grid());
+              getAgent().addBehaviour(new ReceiveOpponentBehaviour());
             }
             else{
               System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " lost the game.");
