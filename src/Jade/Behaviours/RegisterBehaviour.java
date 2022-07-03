@@ -1,4 +1,4 @@
-package Jade;
+package Jade.Behaviours;
 import jade.core.behaviours.*;
 import jade.domain.DFService;
 import jade.domain.FIPAException;

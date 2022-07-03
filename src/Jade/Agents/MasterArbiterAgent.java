@@ -1,5 +1,8 @@
-package Jade;
+package Jade.Agents;
 import jade.core.Agent;
+import Jade.Behaviours.RegisterBehaviour;
+import Jade.Behaviours.MasterArbiter.GetPlayersArbitersBehaviour;
+import Jade.Behaviours.MasterArbiter.PlayGameBehaviour;
 import jade.core.AID;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
@@ -20,7 +23,7 @@ public class MasterArbiterAgent extends Agent{
         // Register
         addBehaviour(new RegisterBehaviour("master-arbiter", "Master Arbiter"));
         // Wait that all agents are registered
-        doWait(5000);
+        doWait(3000);
         // Add the behaviour to receive the messages to play and to arbiter
         addBehaviour(new GetPlayersArbitersBehaviour());
         // Start the Game
@@ -34,8 +37,8 @@ public class MasterArbiterAgent extends Agent{
 		catch (FIPAException fe) {
 			fe.printStackTrace();
 		}
-		System.out.println("Master Arbiter Agent "+getAID().getName()+" terminating. THE GAME IS OVER");
-        System.out.println("The winner is "+ winner.getName());
+		System.out.println("Master Arbiter Agent "+getAID().getName()+" terminating. \n THE GAME IS OVER");
+        System.out.println("The final winner is "+ winner.getName());
 	}
 
     public AID[] getPlayers() {

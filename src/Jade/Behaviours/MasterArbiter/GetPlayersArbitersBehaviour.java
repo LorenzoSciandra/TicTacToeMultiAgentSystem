@@ -1,4 +1,5 @@
-package Jade;
+package Jade.Behaviours.MasterArbiter;
+import Jade.Agents.MasterArbiterAgent;
 import jade.core.AID;
 import jade.core.behaviours.*;
 import jade.domain.DFService;

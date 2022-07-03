@@ -1,11 +1,12 @@
-package Jade;
+package Jade.Messages;
+import Jade.*;
 
 import jade.lang.acl.ACLMessage;
 
-public class MyMessage extends ACLMessage {
+public class GridMessage extends ACLMessage {
     private Grid grid;
 
-    public MyMessage(int performative, Grid grid) {
+    public GridMessage(int performative, Grid grid) {
         super(performative);
         this.grid = grid;
     }

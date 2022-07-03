@@ -1,4 +1,4 @@
-package Jade;
+package Jade.Messages;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -7,6 +7,7 @@ public class ProposalToPlayer extends ACLMessage {
     private boolean firstToPlay;
     private String symbol;
     private AID opponent;
+    private Boolean start;
 
     public ProposalToPlayer(int performative, AID opponent, boolean firstToPlay, String symbol) {
         super(performative);
