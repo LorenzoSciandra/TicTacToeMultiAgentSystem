@@ -1,1 +1,0 @@
-[Jade](https://jade.tilab.com/)'s version of the multi-agent system.
