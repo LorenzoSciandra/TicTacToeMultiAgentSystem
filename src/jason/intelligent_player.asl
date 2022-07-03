@@ -62,7 +62,7 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
 
 check_theres_a_win(X,Y,Z, Mossa, Win):-
     vittoria(X,Y,Z) &
-    (moosa(X) | mossa(Y) | mossa(Z)) &
+    (mossa(X) | mossa(Y) | mossa(Z)) &
     Win="false".
 
 /* Initial goal */
@@ -141,13 +141,13 @@ check_theres_a_win(X,Y,Z, Mossa, Win):-
        .nth(6, Grid, SymbolFound7);
        .nth(5, Grid, SymbolFound5);
        .nth(8, Grid, SymbolFound9);
-        if(SymbolFound1 == MySymbol & SymbolFound7 == "$") {
-            Spot = 7;
-        } elif(SymbolFound3 == MySymbol & SymbolFound9 == "$") {
+        if(SymbolFound1 == MySymbol & SymbolFound9 == "$") {
             Spot = 9;
-        } elif(SymbolFound7 == MySymbol & SymbolFound9 == "$") {
+        } elif(SymbolFound3 == MySymbol & SymbolFound7 == "$") {
+            Spot = 7;
+        } elif(SymbolFound7 == MySymbol & SymbolFound3 == "$") {
             Spot = 3;
-        } elif(SymbolFound9 == MySymbol & SymbolFound3 == "$") {
+        } elif(SymbolFound9 == MySymbol & SymbolFound1 == "$") {
             Spot = 1;
         } else {
             /* Altrimenti, se il corner opposto è occupato, scegliamo il centro se possibile altrimenti random */
