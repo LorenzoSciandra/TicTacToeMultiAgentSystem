@@ -5,10 +5,10 @@ import jade.lang.acl.ACLMessage;
 
 public class ProposalToPlayer extends ACLMessage {
     private boolean firstToPlay;
-    private char symbol;
+    private String symbol;
     private AID opponent;
 
-    public ProposalToPlayer(int performative, AID opponent, boolean firstToPlay, char symbol) {
+    public ProposalToPlayer(int performative, AID opponent, boolean firstToPlay, String symbol) {
         super(performative);
         this.firstToPlay = firstToPlay;
         this.symbol = symbol;
@@ -19,7 +19,7 @@ public class ProposalToPlayer extends ACLMessage {
         return firstToPlay;
     }
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 

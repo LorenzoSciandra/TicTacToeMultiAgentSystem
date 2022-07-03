@@ -33,10 +33,16 @@ public class Grid {
         return grid[row][col];
     }
 
-    public void setCell(int row, int col, String value) {
-        grid[row][col] = value;
-        // update free cells
-        freeCells.remove((Integer) (row * 3 + col));
+    public boolean setCell(int row, int col, String value) {
+        // Check for availability
+        if (this.isLegal(row, col)) {
+            grid[row][col] = value;
+            // update free cells
+            freeCells.remove((Integer) (row * 3 + col));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Check if the grid is full
