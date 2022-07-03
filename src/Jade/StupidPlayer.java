@@ -44,7 +44,7 @@ public class StupidPlayer extends Agent {
         return getAID();
     }
 
-    private class PlayBehaviour extends CyclicBehaviour {
+    private class PlayBehaviour extends OneShotBehaviour {
         public void action() {
             // Get a random free position from the 3x3 grid (0,1,2) x (0,1,2)
             int row = (int) (Math.random() * 3);
@@ -61,20 +61,21 @@ public class StupidPlayer extends Agent {
     }
 
     private class ReceiveMessageBehaviour extends CyclicBehaviour {
-        // TODO: metterla in un file a parte
-        // TODO: fare sì che implementi la logica dell'agente
-    
+
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
-            ACLMessage msg = myAgent.receive(mt);
+            MyMessage msg = (MyMessage) myAgent.receive(mt);
             if (msg != null) {
-              // TODO: abbiamo appena ricevuto una mossa da parte di un altro giocatore
+                // Get the grid from the message
+                Grid receivedGrid = msg.getGrid();
+                myGrid.setGrid(receivedGrid);
+                addBehaviour(new PlayBehaviour());
             } else {
-              block();
+                block();
             }
-          }
+        }
     }
-    
+
     private class ReceiveOpponentBehaviour extends OneShotBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
@@ -82,8 +83,11 @@ public class StupidPlayer extends Agent {
             if (msg != null) {
                 myOpponent = msg.getOpponent();
                 myArbiter = msg.getSender();
-                System.out.println("StupidPlayer Agent " + getAID().getName() + " received the opponent " + myOpponent.getName());
-                addBehaviour(new PlayBehaviour());
+                System.out.println(
+                        "StupidPlayer Agent " + getAID().getName() + " received the opponent " + myOpponent.getName());
+                if (msg.isFirstToPlay()) {
+                    addBehaviour(new PlayBehaviour());
+                }
                 addBehaviour(new ReceiveMessageBehaviour());
             } else {
                 block();
@@ -91,5 +95,3 @@ public class StupidPlayer extends Agent {
         }
     }
 }
-
-

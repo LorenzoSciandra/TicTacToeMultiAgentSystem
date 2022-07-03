@@ -9,4 +9,8 @@ public class MyMessage extends ACLMessage {
         super(performative);
         this.grid = grid;
     }
+
+    public Grid getGrid() {
+        return grid;
+    }
 }
