@@ -40,9 +40,7 @@ public class PlayGameBehaviour extends Behaviour{
 				for (int i = 0; i < arbiterAgents.length; ++i) {
                     ACLMessage game = new ProposalToArbiter(ACLMessage.PROPOSE, playerAgents[currentPlayer], playerAgents[currentPlayer+1], numRounds);
 					game.addReceiver(arbiterAgents[i]);
-                    String message = "Dovrai arbitrare il gioco tra " + playerAgents[currentPlayer].getLocalName() + " e " + playerAgents[currentPlayer+1].getLocalName();
                     currentPlayer+=2;
-                    game.setContent(message);
                     getAgent().send(game);
 				}
                 step++;
