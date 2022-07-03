@@ -38,7 +38,7 @@ public class PlayGameBehaviour extends Behaviour{
             if(step==0){
                 int currentPlayer = 0;
 				for (int i = 0; i < arbiterAgents.length; ++i) {
-                    ACLMessage game = new ProposalToArbiter(ACLMessage.PROPOSE, playerAgents[currentPlayer], playerAgents[currentPlayer+1], numRounds);
+                    ACLMessage game = new ProposalToArbiter(ACLMessage.PROPOSE, playerAgents[currentPlayer], playerAgents[currentPlayer+1], numRoundsPlayed);
 					game.addReceiver(arbiterAgents[i]);
                     currentPlayer+=2;
                     getAgent().send(game);
