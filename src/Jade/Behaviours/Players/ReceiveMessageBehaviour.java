@@ -41,10 +41,19 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
             ((Player)getAgent()).setStart(true);
             ((Player)getAgent()).setSymbol("X");
             if (((Player) getAgent()).getStupid()) {
+              //aspettiamo che anche l'altro player abbia resettato il tutto
+              getAgent().doWait(300);
               getAgent().addBehaviour(new PlayBehaviour());
             } else {
               getAgent().addBehaviour(new IntelligentPlayBehaviour());
             }
+          }
+        }
+        else{
+          if (((Player) getAgent()).getStupid()) {
+            getAgent().addBehaviour(new PlayBehaviour());
+          } else {
+            getAgent().addBehaviour(new IntelligentPlayBehaviour());
           }
         }
       }

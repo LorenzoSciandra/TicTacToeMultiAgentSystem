@@ -4,14 +4,9 @@ import Jade.Behaviours.RegisterBehaviour;
 import Jade.Behaviours.MasterArbiter.GetPlayersArbitersBehaviour;
 import Jade.Behaviours.MasterArbiter.PlayGameBehaviour;
 import jade.core.AID;
-import jade.core.behaviours.*;
-import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
-import jason.stdlib.map.get;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
+
 
 public class MasterArbiterAgent extends Agent{
     
@@ -37,8 +32,8 @@ public class MasterArbiterAgent extends Agent{
 		catch (FIPAException fe) {
 			fe.printStackTrace();
 		}
-		System.out.println("Master Arbiter Agent "+getAID().getName()+" terminating. \n THE GAME IS OVER");
-        System.out.println("The final winner is "+ winner.getName());
+		System.out.println("Master Arbiter Agent "+getAID().getName()+" terminating.");
+        System.out.println(" THE GAME IS OVER!. The final winner is "+ winner.getName());
 	}
 
     public AID[] getPlayers() {

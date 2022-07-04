@@ -36,6 +36,7 @@ public class PlayGameBehaviour extends Behaviour{
     public void action() {
         if(numPlayers%2==0 && numArbiters>=numRounds){
             if(step==0){
+                System.out.println("Assegno i giocatori e gli arbitri per il round: " + numRoundsPlayed);
                 int currentPlayer = 0;
 				for (int i = 0; i < arbiterAgents.length; ++i) {
                     ACLMessage game = new ProposalToArbiter(ACLMessage.PROPOSE, playerAgents[currentPlayer], playerAgents[currentPlayer+1], numRoundsPlayed);
@@ -60,6 +61,9 @@ public class PlayGameBehaviour extends Behaviour{
                         winnersRound.add(new ArrayList<AID>());
                         step--;
                         numRoundsPlayed++;
+                        // aspettiamo un attimo prima di far inziare il round successivo
+                        getAgent().doWait(300);
+                        System.out.println("Procediamo con la fase successiva! Si giocherà a breve il round: " + numRoundsPlayed);
                     }
                 }
                 else {
