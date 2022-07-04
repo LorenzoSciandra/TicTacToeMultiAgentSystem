@@ -2,14 +2,8 @@ package Jade.Behaviours.Players;
 
 import Jade.*;
 import jade.core.behaviours.*;
-import Jade.Behaviours.Players.*;
 import Jade.Messages.*;
-import jade.domain.DFService;
-import jade.core.AID;
-import jade.domain.FIPAException;
-import Jade.Agents.StupidPlayerAgent;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
+import Jade.Agents.*;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
@@ -24,10 +18,10 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
         System.out.println(
             "StupidPlayer Agent " + getAgent().getAID().getName() + " received the message that the game is over.");
 
-        if (msg.getWinnerSymbol() == ((StupidPlayerAgent) getAgent()).getSymbol()) {
+        if (msg.getWinnerSymbol() == ((Player) getAgent()).getSymbol()) {
           System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " won the game.");
-          ((StupidPlayerAgent) getAgent()).setGrid(new Grid());
-          getAgent().addBehaviour(new ReceiveOpponentBehaviour());
+          ((Player) getAgent()).setGrid(new Grid());
+          getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
         } else {
           System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " lost the game.");
           getAgent().doDelete();
@@ -36,8 +30,19 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
         System.out.println(
             "StupidPlayer Agent " + getAgent().getAID().getName() + " received the message that the opponent played.");
         Grid receivedGrid = msg.getGrid();
-        ((StupidPlayerAgent) getAgent()).setGrid(receivedGrid);
-        getAgent().addBehaviour(new PlayBehaviour());
+        ((Player) getAgent()).setGrid(receivedGrid);
+        if(msg.getGrid().isEmpty()){
+          ((Player) getAgent()).setGrid(new Grid());
+          if (((Player) getAgent()).getStart()) {
+            getAgent().addBehaviour(new ReceiveMessageBehaviour());
+          } else {
+            if (((Player) getAgent()).getStupid()) {
+              getAgent().addBehaviour(new PlayBehaviour());
+            } else {
+              getAgent().addBehaviour(new IntelligentPlayBehaviour());
+            }
+          }
+        }
       }
     } else {
       block();

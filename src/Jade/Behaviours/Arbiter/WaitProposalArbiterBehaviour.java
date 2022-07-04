@@ -3,7 +3,6 @@ import jade.core.behaviours.*;
 import Jade.Messages.ProposalToArbiter;
 import Jade.Messages.ProposalToPlayer;
 import Jade.Agents.ArbiterAgent;
-import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 

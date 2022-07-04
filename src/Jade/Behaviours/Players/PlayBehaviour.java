@@ -3,14 +3,7 @@ package Jade.Behaviours.Players;
 import jade.core.behaviours.*;
 import Jade.Agents.*;
 import Jade.Messages.*;
-import jade.domain.DFService;
-import jade.core.AID;
-import jade.domain.FIPAException;
-import Jade.Behaviours.Players.*;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 
 public class PlayBehaviour extends OneShotBehaviour {
     public void action() {

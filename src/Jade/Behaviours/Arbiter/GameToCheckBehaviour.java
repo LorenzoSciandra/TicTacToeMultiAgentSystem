@@ -18,6 +18,9 @@ public class GameToCheckBehaviour extends OneShotBehaviour {
             AID otherPlayer = otherAid(sender);
             ACLMessage sendMsg = new GridMessage(ACLMessage.INFORM, msg.getGrid());
             sendMsg.addReceiver(otherPlayer);
+            if(msg.getGrid().isFull()){
+                sendMsg.addReceiver(sender);
+            }
             getAgent().send(sendMsg);
 
             if (msg.getTheresAWinner()){

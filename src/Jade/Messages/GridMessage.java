@@ -9,12 +9,14 @@ public class GridMessage extends ACLMessage {
     private Boolean theresAWinner;
     private String winnerSymbol;
     private AID winnerAID;
+    private boolean restartGame;
 
     public GridMessage(int performative, Grid grid) {
         super(performative);
         this.grid = grid;
         this.theresAWinner = grid.isWinner();
         this.winnerSymbol = grid.getWinner();
+        this.restartGame = grid.isFull();
     }
 
     public Grid getGrid() {
@@ -39,6 +41,10 @@ public class GridMessage extends ACLMessage {
 
     public void setWinnerAID(AID winnerAID) {
         this.winnerAID = winnerAID;
+    }
+
+    public boolean isRestartGame() {
+        return restartGame;
     }
 
 

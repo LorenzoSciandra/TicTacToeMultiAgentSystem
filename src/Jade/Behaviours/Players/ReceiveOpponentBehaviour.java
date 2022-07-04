@@ -1,25 +1,16 @@
 package Jade.Behaviours.Players;
 
 import jade.core.behaviours.*;
-import Jade.Behaviours.Players.*;
 import Jade.Messages.*;
-import jade.domain.DFService;
-import jade.core.AID;
-import jade.domain.FIPAException;
 import Jade.Agents.Player;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.core.Agent;
 
 public class ReceiveOpponentBehaviour extends OneShotBehaviour {
     private boolean stupid;
-    private Player agentType;
 
-    public ReceiveOpponentBehaviour(boolean stupid, Player agentType) {
+    public ReceiveOpponentBehaviour(boolean stupid) {
         this.stupid = stupid;
-        this.agentType = agentType;
     }
 
     public void action() {

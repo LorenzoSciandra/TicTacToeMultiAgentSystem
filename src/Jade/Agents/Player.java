@@ -7,37 +7,62 @@ import jade.core.Agent;
 public class Player extends Agent{
     // These are all fake methods just to make the code compile.
 
+    private Grid myGrid;
+    private AID myArbiter;
+    private AID myOpponent;
+    private String mySymbol;
+    private Boolean start;
+    private Boolean stupid;
+
     public AID getPlayerAID() {
         return getAID();
     }
 
     public AID getArbiterAID() {
-        return getAID();
+        return myArbiter;
     }
 
     public AID getOpponentAID() {
-        return getAID();
+        return myOpponent;
     }
 
     public String getSymbol() {
-        return "";
+        return mySymbol;
     }
 
     public Grid getGrid() {
-        return new Grid();
+        return myGrid;
     }
 
-    public void setSymbol(String symbol) {}
+    public void setSymbol(String symbol) {
+        this.mySymbol = symbol;
+    }
 
-    public void setOpponent(AID opponent) {}
+    public void setOpponent(AID opponent) {
+        this.myOpponent = opponent;
+    }
 
-    public void setArbiter(AID arbiter) {}
+    public void setArbiter(AID arbiter) {
+        this.myArbiter = arbiter;
+    }
 
-    public void setGrid(Grid grid) {}
+    public void setGrid(Grid grid) {
+        this.myGrid = grid;
+    }
 
-    public void setStart(Boolean start) {}
+    public void setStart(Boolean start) {
+        this.start = start;
+    }
 
     public Boolean getStart() {
-        return false;
+        return start;
+    }
+
+    public void setStupid(Boolean stupid) {
+        this.stupid = stupid;
+    }
+
+    public Boolean getStupid() {
+        return stupid;
     }
 }
