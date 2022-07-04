@@ -34,8 +34,12 @@ public class ReceiveMessageBehaviour extends OneShotBehaviour {
         if(msg.getGrid().isEmpty()){
           ((Player) getAgent()).setGrid(new Grid());
           if (((Player) getAgent()).getStart()) {
+            ((Player)getAgent()).setStart(false);
+            ((Player)getAgent()).setSymbol("O");
             getAgent().addBehaviour(new ReceiveMessageBehaviour());
           } else {
+            ((Player)getAgent()).setStart(true);
+            ((Player)getAgent()).setSymbol("X");
             if (((Player) getAgent()).getStupid()) {
               getAgent().addBehaviour(new PlayBehaviour());
             } else {
