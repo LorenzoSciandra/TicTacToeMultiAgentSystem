@@ -17,7 +17,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 
 import java.util.function.Consumer;
 
-public class StupidPlayerAgent extends Player{
+public class IntelligentPlayerAgent extends Player {
     private Grid myGrid;
     private AID myArbiter;
     private AID myOpponent;
@@ -26,8 +26,8 @@ public class StupidPlayerAgent extends Player{
 
     protected void setup() {
         myGrid = new Grid();
-        addBehaviour(new RegisterBehaviour("stupid-player", "Stupid Player"));
-        addBehaviour(new ReceiveOpponentBehaviour(false, this));
+        addBehaviour(new RegisterBehaviour("intelligent-player", "Intelligent Player"));
+        addBehaviour(new ReceiveOpponentBehaviour(true, this));
     }
 
     protected void takeDown() {
@@ -36,7 +36,7 @@ public class StupidPlayerAgent extends Player{
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-        System.out.println("StupidPlayer Agent " + getAID().getName() + " terminating.");
+        System.out.println("IntelligentPlayer Agent " + getAID().getName() + " terminating.");
     }
 
     public AID getPlayerAID() {

@@ -114,6 +114,15 @@ public class Grid {
         return freeCells.contains((Integer) (row * 3 + col));
     }
 
+    // Same method as isLegal but with a cell number
+    public boolean isFree(int row, int col) {
+        return grid[row][col].equals(" ");
+    }
+
+    public boolean isMySymbolThere(int row, int col, String symbol) {
+        return grid[row][col].equals(symbol);
+    }
+
     public String[][] getGrid() {
         return this.grid;
     }
