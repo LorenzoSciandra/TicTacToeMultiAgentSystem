@@ -1,6 +1,9 @@
 ![LICENSE SHIELD](https://img.shields.io/badge/license-MIT-orange)
 # TicTacToeMultiAgentSystem
 A multi-agent system where agents compete in tic-tac-toe tournaments.
+The following implementation was made in two different languages:
+- Jade: Java Agent Development Framework
+- Jason: A Java-based interpreter for an extended version of AgentSpeak
 
 ## Tournament
 For each tournament, 3 different types of agents are created:
