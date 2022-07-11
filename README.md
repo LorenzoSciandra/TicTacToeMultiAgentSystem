@@ -15,4 +15,4 @@ For each tournament, 3 different types of agents are created:
 
 ## State Transition Systems
 ### Master Arbiter
-![MasterArbiterSchema](https://raw.githubusercontent.com/LorenzoSciandra/TicTacToeMultiAgentSystem/main/documentation/Drawio/MasterArbiterSchema.png)
+<img src="https://raw.githubusercontent.com/LorenzoSciandra/TicTacToeMultiAgentSystem/main/documentation/Drawio/MasterArbiterSchema.png" style="background: white;" >
