@@ -12,3 +12,7 @@ For each tournament, 3 different types of agents are created:
 - **Player**: the number $N$ of players must be a power of two in order to have an even number of players for each round and pairs that can always be built. We can actually define two different types of Players:
   - **Stupid Player**: chooses the move randomly;
   - **Intelligent Player**: if he has the chance to win he catches it and if he succeeds he avoids making the opponent win. If he is the first to make the move, he always chooses a corner, otherwise the central cell.
+
+## State Transition Systems
+### Master Arbiter
+![MasterArbiterSchema](https://raw.githubusercontent.com/LorenzoSciandra/TicTacToeMultiAgentSystem/main/documentation/Drawio/MasterArbiterSchema.png)
