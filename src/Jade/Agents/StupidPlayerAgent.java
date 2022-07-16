@@ -12,7 +12,7 @@ public class StupidPlayerAgent extends Player{
     protected void setup() {
         setGrid(new Grid());
         setStupid(true);
-        addBehaviour(new RegisterBehaviour("stupid-player", "Stupid Player"));
+        addBehaviour(new RegisterBehaviour("player", "Stupid Player"));
         addBehaviour(new ReceiveOpponentBehaviour(true));
     }
 

@@ -43,6 +43,9 @@ public class GetPlayersArbitersBehaviour extends OneShotBehaviour {
 
 				((MasterArbiterAgent) getAgent()).setPlayers(playerAgents);
 				((MasterArbiterAgent) getAgent()).setArbiters(arbiterAgents);
+
+				getAgent().addBehaviour(new PlayGameBehaviour(arbiterAgents, playerAgents));
+
 			}
 			catch (FIPAException fe) {
 				fe.printStackTrace();

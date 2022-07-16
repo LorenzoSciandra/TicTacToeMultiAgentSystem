@@ -10,9 +10,9 @@ import jade.domain.FIPAException;
 
 public class MasterArbiterAgent extends Agent{
     
-    private AID[] arbiterAgents = null;
-    private AID[] playerAgents = null;
-    private AID winner = null;
+    private AID[] arbiterAgents;
+    private AID[] playerAgents;
+    private AID winner;
 
     protected void setup() {
         // Register
@@ -21,8 +21,6 @@ public class MasterArbiterAgent extends Agent{
         doWait(3000);
         // Add the behaviour to receive the messages to play and to arbiter
         addBehaviour(new GetPlayersArbitersBehaviour());
-        // Start the Game
-        addBehaviour(new PlayGameBehaviour(arbiterAgents, playerAgents));
     }
 
     protected void takeDown() {

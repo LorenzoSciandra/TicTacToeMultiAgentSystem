@@ -12,7 +12,7 @@ public class IntelligentPlayerAgent extends Player {
     protected void setup() {
         setGrid(new Grid());
         setStupid(false);
-        addBehaviour(new RegisterBehaviour("intelligent-player", "Intelligent Player"));
+        addBehaviour(new RegisterBehaviour("player", "Intelligent Player"));
         addBehaviour(new ReceiveOpponentBehaviour(false));
     }
 

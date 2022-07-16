@@ -80,15 +80,14 @@ public class PlayGameBehaviour extends Behaviour{
 
     @Override
     public boolean done() {
-        if (numRoundsPlayed==numRounds && winnersRound.get(numRoundsPlayed).size()==numPlayers){
-            ((MasterArbiterAgent) getAgent()).setWinner(winnersRound.get(numRoundsPlayed).get(0));
-            getAgent().removeBehaviour(this);
-            getAgent().doDelete();
-            return true;
-        }
-        else{
-            return false;
-        }
+        return numRoundsPlayed==numRounds && winnersRound.get(numRoundsPlayed).size()==numPlayers;
+    }
+
+    @Override
+    public int onEnd() {
+        ((MasterArbiterAgent) getAgent()).setWinner(winnersRound.get(numRoundsPlayed).get(0));
+        getAgent().doDelete();
+        return super.onEnd();
     }
 
 }
