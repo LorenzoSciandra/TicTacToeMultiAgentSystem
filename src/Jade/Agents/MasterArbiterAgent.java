@@ -2,7 +2,6 @@ package Jade.Agents;
 import jade.core.Agent;
 import Jade.Behaviours.RegisterBehaviour;
 import Jade.Behaviours.MasterArbiter.GetPlayersArbitersBehaviour;
-import Jade.Behaviours.MasterArbiter.PlayGameBehaviour;
 import jade.core.AID;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
