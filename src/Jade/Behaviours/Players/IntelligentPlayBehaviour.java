@@ -1,23 +1,34 @@
 package Jade.Behaviours.Players;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Jade.Agents.IntelligentPlayerAgent;
 import Jade.Messages.GridMessage;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class IntelligentPlayBehaviour extends OneShotBehaviour{
+public class IntelligentPlayBehaviour extends Behaviour{
+
+    private boolean mossaFatta = false;
 
     public void action() {
-        // TODO: pulire codice che puzza un po' di merda
         // Get a random free position from the 3x3 grid (0,1,2) x (0,1,2)
-        decideMove();
         // Send the message to the arbiter
-        ACLMessage msg = new GridMessage(ACLMessage.INFORM, ((IntelligentPlayerAgent) getAgent()).getGrid());
-        msg.addReceiver(((IntelligentPlayerAgent) getAgent()).getArbiterAID());
-        getAgent().send(msg);
-        getAgent().addBehaviour(new ReceiveMessageBehaviour());
+        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+        GridMessage content = new GridMessage(((IntelligentPlayerAgent) getAgent()).getGrid());
+        try {
+            decideMove();
+            mossaFatta = true;
+            msg.setContentObject(content);
+            msg.addReceiver(((IntelligentPlayerAgent) getAgent()).getArbiterAID());
+            getAgent().send(msg);
+            getAgent().addBehaviour(new ReceiveMessageBehaviour());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void decideMove() {
@@ -186,5 +197,13 @@ public class IntelligentPlayBehaviour extends OneShotBehaviour{
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, 2, ((IntelligentPlayerAgent) getAgent()).getSymbol());
             return;
         }
+    }
+
+    @Override
+    public boolean done() {
+        if (mossaFatta) {
+            getAgent().removeBehaviour(this);
+        }
+        return mossaFatta;
     }
 }

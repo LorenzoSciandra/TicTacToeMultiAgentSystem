@@ -17,8 +17,6 @@ public class RegisterBehaviour extends OneShotBehaviour {
 
 	@Override
     public void action() {
-        myAgent.doWait(200);
-        //System.out.println("Preparing message...");
         DFAgentDescription dfd = new DFAgentDescription();
 		dfd.setName(getAgent().getAID());
 		ServiceDescription sd = new ServiceDescription();

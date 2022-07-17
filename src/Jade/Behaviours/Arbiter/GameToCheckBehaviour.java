@@ -7,36 +7,46 @@ import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
-public class GameToCheckBehaviour extends OneShotBehaviour {
+public class GameToCheckBehaviour extends Behaviour {
+
+    private boolean gameChecked = false;
 
     @Override
     public void action() {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-        GridMessage msg = (GridMessage) getAgent().receive(mt);
+        ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
-            AID sender = msg.getSender();
-            AID otherPlayer = otherAid(sender);
-            ACLMessage sendMsg = new GridMessage(ACLMessage.INFORM, msg.getGrid());
-            sendMsg.addReceiver(otherPlayer);
-            if(msg.getGrid().isFull()){
-                sendMsg.addReceiver(sender);
-            }
-            getAgent().send(sendMsg);
+            gameChecked = true;
+            GridMessage gridMessage;
+            try {
+                gridMessage = (GridMessage) msg.getContentObject();
+                AID sender = msg.getSender();
+                AID otherPlayer = otherAid(sender);
+                ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
 
-            if (msg.getTheresAWinner()){
-                AID masterArbiter = ((ArbiterAgent) getAgent()).getMasterArbiter();
-                String winner = msg.getWinnerSymbol();
-                ACLMessage winnerMessage = new InformWin(ACLMessage.INFORM, getAIDfromSymbol(winner));
-                winnerMessage.addReceiver(masterArbiter);
-                getAgent().send(winnerMessage);
-                getAgent().addBehaviour(new WaitProposalArbiterBehaviour());
+                sendMsg.setContentObject(gridMessage);
+                sendMsg.addReceiver(otherPlayer);
+                System.out.println(gridMessage.toString());
+                if (gridMessage.getGrid().isFull()) {
+                    sendMsg.addReceiver(sender);
+                }
+                getAgent().send(sendMsg);
+
+                if (gridMessage.getTheresAWinner()) {
+                    AID masterArbiter = ((ArbiterAgent) getAgent()).getMasterArbiter();
+                    String winner = gridMessage.getWinnerSymbol();
+                    ACLMessage winnerMessage = new ACLMessage(ACLMessage.INFORM);
+                    winnerMessage.setContentObject(new InformWin(getAIDfromSymbol(winner)));
+                    winnerMessage.addReceiver(masterArbiter);
+                    getAgent().send(winnerMessage);
+                    getAgent().addBehaviour(new WaitProposalArbiterBehaviour());
+                } else {
+                    getAgent().addBehaviour(new GameToCheckBehaviour());
+                }
+            } catch (Exception e2) {
+                // TODO Auto-generated catch block
+                e2.printStackTrace();
             }
-            else{
-                getAgent().addBehaviour(new GameToCheckBehaviour());
-            }
-            
-        } else {
-          block();
         }
     }
 
@@ -49,12 +59,19 @@ public class GameToCheckBehaviour extends OneShotBehaviour {
     }
 
     private AID getAIDfromSymbol(String symbol) {
-        if(symbol.equals("X")){
+        if (symbol.equals("X")) {
             return ((ArbiterAgent) getAgent()).getFirstPlayer();
-        }
-        else{
+        } else {
             return ((ArbiterAgent) getAgent()).getSecondPlayer();
         }
+    }
+
+    @Override
+    public boolean done() {
+        if (gameChecked) {
+            getAgent().removeBehaviour(this);
+        }
+        return gameChecked;
     }
 
 }

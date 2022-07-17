@@ -5,9 +5,11 @@ import Jade.Messages.*;
 import Jade.Agents.Player;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.UnreadableException;
 
-public class ReceiveOpponentBehaviour extends OneShotBehaviour {
+public class ReceiveOpponentBehaviour extends Behaviour {
     private boolean stupid;
+    private boolean messageReceived = false;
 
     public ReceiveOpponentBehaviour(boolean stupid) {
         this.stupid = stupid;
@@ -15,33 +17,46 @@ public class ReceiveOpponentBehaviour extends OneShotBehaviour {
 
     public void action() {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
-        ProposalToPlayer msg = (ProposalToPlayer) myAgent.receive(mt);
+        ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
-            ((Player) getAgent()).setOpponent(msg.getOpponent());
-            ((Player) getAgent()).setArbiter(msg.getSender());
-            ((Player) getAgent()).setSymbol(msg.getSymbol());
-            ((Player) getAgent()).setStart(msg.isFirstToPlay());
-            System.out.println("StupidPlayerAgent " + getAgent().getAID().getName() + " received the opponent "
-                    + ((Player) getAgent()).getOpponentAID().getName() + " and the arbiter "
-                    + ((Player) getAgent()).getArbiterAID().getName() + ".");
-            ACLMessage reply = msg.createReply();
-            reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-            reply.setContent("OK, I accept to play the game against "
-                    + ((Player) getAgent()).getOpponentAID().getName() + " with arbiter "
-                    + ((Player) getAgent()).getArbiterAID().getName() + ".");
-            getAgent().send(reply);
-            if (((Player) getAgent()).getStart()) {
-                if (stupid) {
-                    getAgent().addBehaviour(new PlayBehaviour());
+            ProposalToPlayer content;
+            messageReceived = true;
+            try {
+                content = (ProposalToPlayer) msg.getContentObject();
+                ((Player) getAgent()).setOpponent(content.getOpponent());
+                ((Player) getAgent()).setArbiter(msg.getSender());
+                ((Player) getAgent()).setSymbol(content.getSymbol());
+                ((Player) getAgent()).setStart(content.isFirstToPlay());
+                System.out.println("StupidPlayerAgent " + getAgent().getAID().getName() + " received the opponent "
+                        + ((Player) getAgent()).getOpponentAID().getName() + " and the arbiter "
+                        + ((Player) getAgent()).getArbiterAID().getName() + ".");
+                ACLMessage reply = msg.createReply();
+                reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+                reply.setContent("OK, I accept to play the game against "
+                        + ((Player) getAgent()).getOpponentAID().getName() + " with arbiter "
+                        + ((Player) getAgent()).getArbiterAID().getName() + ".");
+                getAgent().send(reply);
+                if (((Player) getAgent()).getStart()) {
+                    if (stupid) {
+                        getAgent().addBehaviour(new PlayBehaviour());
+                    } else {
+                        getAgent().addBehaviour(new IntelligentPlayBehaviour());
+                    }
+                } else {
+                    getAgent().addBehaviour(new ReceiveMessageBehaviour());
                 }
-                else {
-                    getAgent().addBehaviour(new IntelligentPlayBehaviour());
-                }
-            } else {
-                getAgent().addBehaviour(new ReceiveMessageBehaviour());
+            } catch (UnreadableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-        } else {
-            block();
         }
+    }
+
+    @Override
+    public boolean done() {
+        if (messageReceived) {
+            getAgent().removeBehaviour(this);
+        }
+        return messageReceived;
     }
 }

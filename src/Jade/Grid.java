@@ -3,7 +3,9 @@ package Jade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grid {
+import jade.util.leap.Serializable;
+
+public class Grid implements Serializable {
     // Tic-Tac-Toe 3x3 Grid
     private String[][] grid = new String[3][3];
     private List<Integer> freeCells = new ArrayList<Integer>();
@@ -84,7 +86,7 @@ public class Grid {
         return false;
     }
 
-    public String getWinner(){
+    public String getWinner() {
         if (isWinner()) {
             if (grid[0][0].equals(grid[1][1]) && grid[1][1].equals(grid[2][2])) {
                 return grid[0][0];
@@ -102,8 +104,7 @@ public class Grid {
                     return grid[0][i];
                 }
             }
-        }
-        else{
+        } else {
             return " ";
         }
         return null;

@@ -1,18 +1,18 @@
 package Jade.Messages;
+
+import java.io.Serializable;
+
 import Jade.*;
 import jade.core.AID;
 
-import jade.lang.acl.ACLMessage;
-
-public class GridMessage extends ACLMessage {
+public class GridMessage implements Serializable {
     private Grid grid;
     private Boolean theresAWinner;
     private String winnerSymbol;
     private AID winnerAID;
     private boolean restartGame;
 
-    public GridMessage(int performative, Grid grid) {
-        super(performative);
+    public GridMessage(Grid grid) {
         this.grid = grid;
         this.theresAWinner = grid.isWinner();
         this.winnerSymbol = grid.getWinner();
@@ -46,6 +46,5 @@ public class GridMessage extends ACLMessage {
     public boolean isRestartGame() {
         return restartGame;
     }
-
 
 }

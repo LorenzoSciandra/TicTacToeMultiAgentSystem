@@ -1,17 +1,17 @@
 package Jade.Messages;
 
-import jade.core.AID;
-import jade.lang.acl.ACLMessage;
+import java.io.Serializable;
 
-public class InformWin extends ACLMessage {
+import jade.core.AID;
+
+public class InformWin implements Serializable {
 
     private AID winner;
 
-    public InformWin(int perf, AID winner) {
-        super(perf);
+    public InformWin(AID winner) {
         this.winner = winner;
     }
-    
+
     public AID getWinner() {
         return winner;
     }

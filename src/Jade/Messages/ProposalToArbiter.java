@@ -1,16 +1,17 @@
 package Jade.Messages;
 
+import java.io.Serializable;
+
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
 
-public class ProposalToArbiter extends ACLMessage {
+public class ProposalToArbiter implements Serializable {
 
     private AID firstPlayer;
     private AID secondPlayer;
     private int round;
 
-    public ProposalToArbiter(int perf, AID firstPlayer, AID secondPlayer, int round) {
-        super(perf);
+    public ProposalToArbiter(AID firstPlayer, AID secondPlayer, int round) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.round = round;

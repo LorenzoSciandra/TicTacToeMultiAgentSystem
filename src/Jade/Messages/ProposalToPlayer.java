@@ -1,15 +1,15 @@
 package Jade.Messages;
 
-import jade.core.AID;
-import jade.lang.acl.ACLMessage;
+import java.io.Serializable;
 
-public class ProposalToPlayer extends ACLMessage {
+import jade.core.AID;
+
+public class ProposalToPlayer implements Serializable {
     private boolean firstToPlay;
     private String symbol;
     private AID opponent;
 
-    public ProposalToPlayer(int performative, AID opponent, boolean firstToPlay, String symbol) {
-        super(performative);
+    public ProposalToPlayer(AID opponent, boolean firstToPlay, String symbol) {
         this.firstToPlay = firstToPlay;
         this.symbol = symbol;
         this.opponent = opponent;
