@@ -37,6 +37,7 @@ public class Grid implements Serializable {
 
     public boolean setCell(int row, int col, String value) {
         // Check for availability
+        System.out.println("STO CERCANDO DI METTERE IL SIMBOLO " + value + " IN (" + row + "," + col + ")");
         if (this.isLegal(row, col)) {
             grid[row][col] = value;
             // update free cells
@@ -65,25 +66,25 @@ public class Grid implements Serializable {
     // Check if the grid is a winner
     public boolean isWinner() {
         // Check rows
-        for (int i = 0; i < 3; i++) {
-            if (grid[i][0].equals(grid[i][1]) && grid[i][1].equals(grid[i][2])) {
-                return true;
-            }
-        }
+        boolean horizontally = grid[0][0].equals(grid[0][1])
+                && grid[0][0].equals(grid[0][2])
+                && !grid[0][0].equals(" ")
+                || grid[1][0].equals(grid[1][1]) && grid[1][0].equals(grid[1][2]) && !grid[1][0].equals(" ")
+                || grid[2][0].equals(grid[2][1]) && grid[2][0].equals(grid[2][2]) && !grid[2][0].equals(" ");
         // Check columns
-        for (int i = 0; i < 3; i++) {
-            if (grid[0][i].equals(grid[1][i]) && grid[1][i].equals(grid[2][i])) {
-                return true;
-            }
-        }
+        boolean vertically = grid[0][0].equals(grid[1][0])
+                && grid[0][0].equals(grid[2][0])
+                && !grid[0][0].equals(" ")
+                || grid[0][1].equals(grid[1][1]) && grid[0][1].equals(grid[2][1]) && !grid[0][1].equals(" ")
+                || grid[0][2].equals(grid[1][2]) && grid[0][2].equals(grid[2][2]) && !grid[0][2].equals(" ");
         // Check diagonals
-        if (grid[0][0].equals(grid[1][1]) && grid[1][1].equals(grid[2][2])) {
-            return true;
-        }
-        if (grid[0][2].equals(grid[1][1]) && grid[1][1].equals(grid[2][0])) {
-            return true;
-        }
-        return false;
+        boolean diagonally = grid[0][0].equals(grid[1][1])
+                && grid[0][0].equals(grid[2][2])
+                && !grid[0][0].equals(" ")
+                || grid[0][2].equals(grid[1][1])
+                        && grid[0][2].equals(grid[2][0])
+                        && !grid[0][2].equals(" ");
+        return horizontally || vertically || diagonally;
     }
 
     public String getWinner() {

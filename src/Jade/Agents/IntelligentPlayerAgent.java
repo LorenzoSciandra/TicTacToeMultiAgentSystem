@@ -14,6 +14,7 @@ public class IntelligentPlayerAgent extends Player {
         setStupid(false);
         addBehaviour(new RegisterBehaviour("player", "Intelligent Player"));
         addBehaviour(new ReceiveOpponentBehaviour(false));
+        addBehaviour(new EndGameBehaviour());
     }
 
     protected void takeDown() {
@@ -22,7 +23,7 @@ public class IntelligentPlayerAgent extends Player {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-        System.out.println("IntelligentPlayer Agent " + getAID().getName() + " terminating.");
+        System.out.println("IntelligentPlayer Agent " + getAID().getName() + " sta terminando.");
     }
 
 }

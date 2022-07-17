@@ -19,7 +19,6 @@ public class WaitProposalArbiterBehaviour extends Behaviour {
         ACLMessage msg = getAgent().receive(mt);
         if (msg != null) {
             // CFP Message received. Process it
-            System.out.println("HO RICEVUTO UNA PROPOSTA");
             proposal = true;
             ProposalToArbiter proposal;
             try {
@@ -42,6 +41,8 @@ public class WaitProposalArbiterBehaviour extends Behaviour {
                 secondPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getFirstPlayer(), false, "O"));
                 firstPlayerMsg.addReceiver(proposal.getFirstPlayer());
                 secondPlayerMsg.addReceiver(proposal.getSecondPlayer());
+                System.out.println("I GIOCATORI SARANNO: " + proposal.getFirstPlayer().getName() + " e "
+                        + proposal.getSecondPlayer().getName());
                 getAgent().send(firstPlayerMsg);
                 getAgent().send(secondPlayerMsg);
                 getAgent().addBehaviour(new GameToCheckBehaviour());

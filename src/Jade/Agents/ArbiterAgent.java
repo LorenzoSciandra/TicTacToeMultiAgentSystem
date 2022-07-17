@@ -1,5 +1,6 @@
 package Jade.Agents;
 import jade.core.Agent;
+import Jade.Behaviours.EndGameBehaviour;
 import Jade.Behaviours.RegisterBehaviour;
 import Jade.Behaviours.Arbiter.WaitProposalArbiterBehaviour;
 import jade.core.AID;
@@ -22,6 +23,7 @@ public class ArbiterAgent extends Agent{
         addBehaviour(new RegisterBehaviour("arbiter", "Arbiter"));
         // Add the behaviour to receive the messages to play and to arbiter
         addBehaviour(new WaitProposalArbiterBehaviour());
+        addBehaviour(new EndGameBehaviour());
     }
 
     protected void takeDown() {
@@ -31,8 +33,7 @@ public class ArbiterAgent extends Agent{
 		catch (FIPAException fe) {
 			fe.printStackTrace();
 		}
-		System.out.println("Arbiter Agent "+getAID().getName()+" terminating.");
-        System.out.println("The winner of my game is "+ winner.getName());
+		System.out.println("Arbiter Agent "+getAID().getName()+" sta terminando.");
 	}
 
     public AID getFirstPlayer() {

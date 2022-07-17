@@ -23,21 +23,23 @@ public class GameToCheckBehaviour extends Behaviour {
                 AID sender = msg.getSender();
                 AID otherPlayer = otherAid(sender);
                 ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
+                GridMessage gridMessageToSend = new GridMessage(gridMessage.getGrid());
 
-                sendMsg.setContentObject(gridMessage);
+                sendMsg.setContentObject(gridMessageToSend);
                 sendMsg.addReceiver(otherPlayer);
-                System.out.println(gridMessage.toString());
-                if (gridMessage.getGrid().isFull()) {
+                gridMessage.getGrid().printGrid();
+                if (gridMessageToSend.getGrid().isFull()) {
                     sendMsg.addReceiver(sender);
                 }
                 getAgent().send(sendMsg);
 
-                if (gridMessage.getTheresAWinner()) {
+                if (gridMessageToSend.getTheresAWinner()) {
                     AID masterArbiter = ((ArbiterAgent) getAgent()).getMasterArbiter();
-                    String winner = gridMessage.getWinnerSymbol();
+                    String winner = gridMessageToSend.getWinnerSymbol();
                     ACLMessage winnerMessage = new ACLMessage(ACLMessage.INFORM);
                     winnerMessage.setContentObject(new InformWin(getAIDfromSymbol(winner)));
                     winnerMessage.addReceiver(masterArbiter);
+                    ((ArbiterAgent)getAgent()).setWinner(gridMessage.getwinnerAid());
                     getAgent().send(winnerMessage);
                     getAgent().addBehaviour(new WaitProposalArbiterBehaviour());
                 } else {

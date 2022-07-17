@@ -76,13 +76,12 @@ public class PlayGameBehaviour extends Behaviour {
                             }
                             winnersRound.add(new ArrayList<AID>());
                             step--;
-                            numRoundsPlayed++;
                             // aspettiamo un attimo prima di far inziare il round successivo
                             getAgent().doWait(300);
                             System.out.println(
                                     "Procediamo con la fase successiva! Si giocherà a breve il round: "
                                             + numRoundsPlayed);
-                        }
+                        } numRoundsPlayed++;
                     } catch (UnreadableException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -100,14 +99,23 @@ public class PlayGameBehaviour extends Behaviour {
 
     @Override
     public boolean done() {
-        return numRoundsPlayed == numRounds && winnersRound.get(numRoundsPlayed).size() == numPlayers;
-    }
-
-    @Override
-    public int onEnd() {
-        ((MasterArbiterAgent) getAgent()).setWinner(winnersRound.get(numRoundsPlayed).get(0));
-        getAgent().doDelete();
-        return super.onEnd();
+        boolean cond = numRoundsPlayed == numRounds;
+        if (cond) {
+            System.out.println("Fine del gioco!");
+            ((MasterArbiterAgent) myAgent).setWinner(winnersRound.get(numRoundsPlayed - 1).get(0));
+            
+            ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+            msg.setContent("END");
+            for (AID aAID : playerAgents) {
+                msg.addReceiver(aAID);
+            }
+            for (AID aAID : arbiterAgents) {
+                msg.addReceiver(aAID);
+            }
+            getAgent().send(msg);
+            getAgent().doDelete();
+        }
+        return cond;
     }
 
 }

@@ -15,27 +15,26 @@ public class ReceiveMessageBehaviour extends Behaviour {
   public void action() {
     MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
     ACLMessage msg = getAgent().receive(mt);
-    if (msg != null) {
+    if (msg != null && !msg.getContent().equals("END")) {
       GridMessage content;
       try {
         messageReceived = true;
         content = (GridMessage) msg.getContentObject();
         if (content.getTheresAWinner()) {
           System.out.println(
-              "StupidPlayer Agent " + getAgent().getAID().getName() + " received the message that the game is over.");
+              "Agent " + getAgent().getAID().getName() + " ha ricevuto il messaggio che la partita è finita.");
 
           if (content.getWinnerSymbol() == ((Player) getAgent()).getSymbol()) {
-            System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " won the game.");
+            System.out.println("Agent " + getAgent().getAID().getName() + " ha vinto.");
             ((Player) getAgent()).setGrid(new Grid());
-            getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
+            // getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
           } else {
-            System.out.println("StupidPlayer Agent " + getAgent().getAID().getName() + " lost the game.");
-            getAgent().doDelete();
+            System.out.println("Agent " + getAgent().getAID().getName() + " ha perso.");
           }
         } else {
           System.out.println(
-              "StupidPlayer Agent " + getAgent().getAID().getName()
-                  + " received the message that the opponent played.");
+              "Agent " + getAgent().getAID().getName()
+                  + " ha ricevuto il messaggio e sta facendo la mossa...");
           Grid receivedGrid = content.getGrid();
           ((Player) getAgent()).setGrid(receivedGrid);
           if (content.getGrid().isEmpty()) {
