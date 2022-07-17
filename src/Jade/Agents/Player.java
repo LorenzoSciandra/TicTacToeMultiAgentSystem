@@ -13,6 +13,8 @@ public class Player extends Agent{
     private String mySymbol;
     private Boolean start;
     private Boolean stupid;
+    private int totalRounds;
+    private int round = 0;
 
     public AID getPlayerAID() {
         return getAID();
@@ -64,5 +66,21 @@ public class Player extends Agent{
 
     public Boolean getStupid() {
         return stupid;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 }

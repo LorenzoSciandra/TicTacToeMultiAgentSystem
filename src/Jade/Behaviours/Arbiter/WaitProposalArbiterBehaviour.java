@@ -27,6 +27,7 @@ public class WaitProposalArbiterBehaviour extends Behaviour {
                 ((ArbiterAgent) getAgent()).setSecondPlayer(proposal.getSecondPlayer());
                 ((ArbiterAgent) getAgent()).setNumRound(proposal.getRound());
                 ((ArbiterAgent) getAgent()).setMasterArbiter(msg.getSender());
+                ((ArbiterAgent) getAgent()).setTotalRounds(proposal.getTotalRounds());
 
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
@@ -36,9 +37,9 @@ public class WaitProposalArbiterBehaviour extends Behaviour {
                 getAgent().send(reply);
 
                 ACLMessage firstPlayerMsg = new ACLMessage(ACLMessage.PROPOSE);
-                firstPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getSecondPlayer(), true, "X"));
+                firstPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getSecondPlayer(), true, "X", proposal.getTotalRounds()));
                 ACLMessage secondPlayerMsg = new ACLMessage(ACLMessage.PROPOSE);
-                secondPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getFirstPlayer(), false, "O"));
+                secondPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getFirstPlayer(), false, "O", proposal.getTotalRounds()));
                 firstPlayerMsg.addReceiver(proposal.getFirstPlayer());
                 secondPlayerMsg.addReceiver(proposal.getSecondPlayer());
                 System.out.println("I GIOCATORI SARANNO: " + proposal.getFirstPlayer().getName() + " e "

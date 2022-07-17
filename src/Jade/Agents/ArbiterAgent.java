@@ -17,6 +17,7 @@ public class ArbiterAgent extends Agent{
     private int turno = 0;
     private String firstSymbol = "X";
     private String secondSymbol = "O";
+    private int totalRounds;
 
     protected void setup() {
         // Register
@@ -96,6 +97,14 @@ public class ArbiterAgent extends Agent{
 
     public void setSecondSymbol(String secondSymbol) {
         this.secondSymbol = secondSymbol;
+    }
+
+    public int getTotalRounds() {
+        return this.totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
     }
     
 }
