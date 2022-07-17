@@ -153,182 +153,122 @@ public class IntelligentPlayBehaviour extends Behaviour {
             myOpposingSymbol = "X";
         }
         // First, we check if we can win horizontally
+        if (!checkHorizontal(mySymbol))
+            // If we can't win horizontally, we check if we can win vertically
+            if (!checkVertical(mySymbol))
+                // If we can't win vertically, we check if we can win diagonally
+                if (!checkDiagonal(mySymbol))
+                    // If we can't win diagonally, we check if we can block the opponent from
+                    // winning.
+                    // First, we check if we can block the opponent from winning horizontally
+                    if (!checkHorizontal(myOpposingSymbol))
+                        // If we can't block the opponent from winning horizontally, we check if we can
+                        // block the opponent from winning vertically
+                        if (!checkVertical(myOpposingSymbol))
+                            // If we can't block the opponent from winning vertically, we check if we can
+                            // block the opponent from winning diagonally
+                            if (!checkDiagonal(myOpposingSymbol)) {
+                                // If we can't block the opponent from winning diagonally, we do a random legal
+                                // move
+                                int row = (int) (Math.random() * 3);
+                                int col = (int) (Math.random() * 3);
+                                while (!((IntelligentPlayerAgent) getAgent()).getGrid().setCell(row, col,
+                                        ((IntelligentPlayerAgent) getAgent()).getSymbol())) {
+                                    row = (int) (Math.random() * 3);
+                                    col = (int) (Math.random() * 3);
+                                }
+                            }
+    }
+
+    private boolean checkHorizontal(String symbol) {
         for (int i = 0; i < 3; i++) {
-            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, mySymbol)
+            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 2)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 2,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, mySymbol)
+                return true;
+            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 0)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 0,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, mySymbol)
+                return true;
+            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 1)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 1,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
+                return true;
             }
         }
-        // If we can't win horizontally, we check if we can win vertically
+        return false;
+    }
+
+    private boolean checkVertical(String symbol) {
         for (int i = 0; i < 3; i++) {
-            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, mySymbol)
+            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, i)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, i,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, mySymbol)
+                return true;
+            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, i)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, i,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, mySymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, mySymbol)
+                return true;
+            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, symbol)
+                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, symbol)
                     && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, i)) {
                 ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, i,
                         ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
+                return true;
             }
         }
-        // If we can't win vertically, we check if we can win diagonally
-        if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, mySymbol)
+        return false;
+    }
+
+    private boolean checkDiagonal(String symbol) {
+        if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, 2)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, 2,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, mySymbol)
+            return true;
+        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, 0)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, 0,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, mySymbol)
+            return true;
+        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, 1)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, 1,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, mySymbol)
+            return true;
+        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, 0)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, 0,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, mySymbol)
+            return true;
+        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, 2)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, 2,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, mySymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, mySymbol)
+            return true;
+        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, symbol)
+                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, symbol)
                 && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, 1)) {
             ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, 1,
                     ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
+            return true;
         }
-        // If we can't win diagonally, we check if we can block the opponent from
-        // winning
-        // First, we check if we can block the opponent from winning horizontally
-        for (int i = 0; i < 3; i++) {
-            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 2)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 2,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 1, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 0)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 0,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 0, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(i, 2, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(i, 1)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(i, 1,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            }
-        }
-        // If we can't block the opponent from winning horizontally, we check if we can
-        // block the opponent from winning vertically
-        for (int i = 0; i < 3; i++) {
-            if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, i)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, i,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, i)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, i,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, i, myOpposingSymbol)
-                    && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, i)) {
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, i,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
-                return;
-            }
-        }
-        // If we can't block the opponent from winning vertically, we check if we can
-        // block the opponent from winning diagonally
-        if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, 2)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, 2,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, 0)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, 0,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 0, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 2, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, 1)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, 1,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(2, 0)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(2, 0,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(1, 1, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(0, 2)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(0, 2,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        } else if (((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(0, 2, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isMySymbolThere(2, 0, myOpposingSymbol)
-                && ((IntelligentPlayerAgent) getAgent()).getGrid().isFree(1, 1)) {
-            ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(1, 1,
-                    ((IntelligentPlayerAgent) getAgent()).getSymbol());
-            return;
-        }
-        // If we can't block the opponent from winning diagonally, we do a random legal
-        // move
-        int row = (int) (Math.random() * 3);
-        int col = (int) (Math.random() * 3);
-        while (!((IntelligentPlayerAgent) getAgent()).getGrid().setCell(row, col,
-                ((IntelligentPlayerAgent) getAgent()).getSymbol())) {
-            row = (int) (Math.random() * 3);
-            col = (int) (Math.random() * 3);
-        }
+        return false;
     }
 
     @Override
