@@ -3,6 +3,7 @@ package Jade.Behaviours.Players;
 import jade.core.behaviours.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import Jade.Agents.*;
 import Jade.Messages.*;
@@ -31,13 +32,11 @@ public class PlayBehaviour extends Behaviour {
     }
 
     private void decideMove() {
-        int row = (int) (Math.random() * 3);
-        int col = (int) (Math.random() * 3);
-        while (!((StupidPlayerAgent) getAgent()).getGrid().setCell(row, col,
-                ((StupidPlayerAgent) getAgent()).getSymbol())) {
-            row = (int) (Math.random() * 3);
-            col = (int) (Math.random() * 3);
-        }
+        ArrayList<Integer> freeCells = (ArrayList<Integer>) ((StupidPlayerAgent) getAgent())
+                .getGrid().getFreeCells();
+        int randomIndex = (int) (Math.random() * freeCells.size());
+        ((StupidPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),
+                ((StupidPlayerAgent) getAgent()).getSymbol());
     }
 
     @Override

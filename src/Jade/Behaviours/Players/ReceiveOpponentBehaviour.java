@@ -7,9 +7,8 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
-public class ReceiveOpponentBehaviour extends Behaviour {
+public class ReceiveOpponentBehaviour extends CyclicBehaviour {
     private boolean stupid;
-    private boolean messageReceived = false;
 
     public ReceiveOpponentBehaviour(boolean stupid) {
         this.stupid = stupid;
@@ -20,7 +19,6 @@ public class ReceiveOpponentBehaviour extends Behaviour {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
             ProposalToPlayer content;
-            messageReceived = true;
             try {
                 content = (ProposalToPlayer) msg.getContentObject();
                 ((Player) getAgent()).setOpponent(content.getOpponent());
@@ -28,8 +26,8 @@ public class ReceiveOpponentBehaviour extends Behaviour {
                 ((Player) getAgent()).setSymbol(content.getSymbol());
                 ((Player) getAgent()).setStart(content.isFirstToPlay());
                 ((Player) getAgent()).setTotalRounds(content.getTotalRounds());
-                
-                System.out.println("StupidPlayerAgent " + getAgent().getAID().getName() + " received the opponent "
+
+                System.out.println("Agent " + getAgent().getAID().getName() + " received the opponent "
                         + ((Player) getAgent()).getOpponentAID().getName() + " and the arbiter "
                         + ((Player) getAgent()).getArbiterAID().getName() + ".");
                 ACLMessage reply = msg.createReply();
@@ -51,14 +49,9 @@ public class ReceiveOpponentBehaviour extends Behaviour {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public boolean done() {
-        if (messageReceived) {
             getAgent().removeBehaviour(this);
+        } else {
+            block();
         }
-        return messageReceived;
     }
 }

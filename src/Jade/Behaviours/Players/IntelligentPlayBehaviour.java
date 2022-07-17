@@ -170,13 +170,11 @@ public class IntelligentPlayBehaviour extends Behaviour {
                             if (!checkDiagonal(myOpposingSymbol)) {
                                 // If we can't block the opponent from winning diagonally, we do a random legal
                                 // move
-                                int row = (int) (Math.random() * 3);
-                                int col = (int) (Math.random() * 3);
-                                while (!((IntelligentPlayerAgent) getAgent()).getGrid().setCell(row, col,
-                                        ((IntelligentPlayerAgent) getAgent()).getSymbol())) {
-                                    row = (int) (Math.random() * 3);
-                                    col = (int) (Math.random() * 3);
-                                }
+                                ArrayList<Integer> freeCells = (ArrayList<Integer>) ((IntelligentPlayerAgent) getAgent())
+                                        .getGrid().getFreeCells();
+                                int randomIndex = (int) (Math.random() * freeCells.size());
+                                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),
+                                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
                             }
     }
 

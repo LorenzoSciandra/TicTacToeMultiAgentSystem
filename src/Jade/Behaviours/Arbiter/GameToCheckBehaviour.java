@@ -28,12 +28,16 @@ public class GameToCheckBehaviour extends Behaviour {
                 sendMsg.setContentObject(gridMessageToSend);
                 sendMsg.addReceiver(otherPlayer);
                 gridMessage.getGrid().printGrid();
-                if (gridMessageToSend.getGrid().isFull()) {
-                    sendMsg.addReceiver(sender);
-                }
                 getAgent().send(sendMsg);
-
-                if (gridMessageToSend.getTheresAWinner()) {
+                if (gridMessageToSend.getGrid().isWinner()) {
+                    ACLMessage winnerMsg = new ACLMessage(ACLMessage.INFORM_IF);
+                    ACLMessage loserMsg = new ACLMessage(ACLMessage.INFORM_IF);
+                    winnerMsg.addReceiver(sender);
+                    loserMsg.addReceiver(otherPlayer);
+                    winnerMsg.setContent("WIN");
+                    loserMsg.setContent("LOSE");
+                    myAgent.send(winnerMsg);
+                    myAgent.send(loserMsg);
                     AID masterArbiter = ((ArbiterAgent) getAgent()).getMasterArbiter();
                     String winner = gridMessageToSend.getWinnerSymbol();
                     ACLMessage winnerMessage = new ACLMessage(ACLMessage.INFORM);
@@ -42,6 +46,13 @@ public class GameToCheckBehaviour extends Behaviour {
                     ((ArbiterAgent)getAgent()).setWinner(gridMessage.getwinnerAid());
                     getAgent().send(winnerMessage);
                     getAgent().addBehaviour(new WaitProposalArbiterBehaviour());
+                } else if (gridMessageToSend.getGrid().isFull()) {
+                    ACLMessage tieMsg = new ACLMessage(ACLMessage.INFORM_IF);
+                    tieMsg.addReceiver(sender);
+                    tieMsg.addReceiver(otherPlayer);
+                    tieMsg.setContent("TIE");
+                    myAgent.send(tieMsg);
+                    getAgent().addBehaviour(new GameToCheckBehaviour());
                 } else {
                     getAgent().addBehaviour(new GameToCheckBehaviour());
                 }

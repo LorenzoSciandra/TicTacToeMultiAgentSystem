@@ -14,6 +14,7 @@ public class StupidPlayerAgent extends Player{
         setStupid(true);
         addBehaviour(new RegisterBehaviour("player", "Stupid Player"));
         addBehaviour(new ReceiveOpponentBehaviour(true));
+        addBehaviour(new CheckWinnerBehaviour());
         addBehaviour(new EndGameBehaviour());
     }
 

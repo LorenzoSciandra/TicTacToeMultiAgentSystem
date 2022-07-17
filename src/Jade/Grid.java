@@ -48,6 +48,12 @@ public class Grid implements Serializable {
         }
     }
 
+    public boolean setCell(int num, String value) {
+        int row = num / 3;
+        int col = num % 3;
+        return setCell(row, col, value);
+    }
+
     // Check if the grid is full
     public boolean isFull() {
         return freeCells.size() == 0;
@@ -140,7 +146,7 @@ public class Grid implements Serializable {
 
     // Print the grid in a nice way
     public void printGrid() {
-        System.out.println("-------------");
+        System.out.println("---------");
         for (int i = 0; i < 3; i++) {
             System.out.print("| ");
             for (int j = 0; j < 3; j++) {
@@ -148,7 +154,7 @@ public class Grid implements Serializable {
             }
             System.out.println("|");
         }
-        System.out.println("-------------");
+        System.out.println("---------");
     }
 
     @Override
