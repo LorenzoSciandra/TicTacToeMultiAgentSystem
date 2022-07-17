@@ -11,16 +11,17 @@ import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
+import java.util.*;
 
 public class PlayGameBehaviour extends Behaviour {
 
     private AID[] arbiterAgents;
     private AID[] playerAgents;
+    private List<AID> currentPlayers;
     private int numPlayers;
     private int numArbiters;
     private int numRounds;
     private int numRoundsPlayed;
-    private List<List<AID>> winnersRound;
     private int step;
     private MessageTemplate mt;
 
@@ -31,9 +32,8 @@ public class PlayGameBehaviour extends Behaviour {
         this.numArbiters = arbiterAgents.length;
         this.numRounds = (int) Math.ceil(this.numPlayers / 2);
         this.numRoundsPlayed = 0;
-        this.winnersRound = new ArrayList<List<AID>>();
-        for (int i = 0; i < this.numRounds; i++) {
-            this.winnersRound.add(new ArrayList<AID>());
+        for (int i= 0; i < playerAgents.length; i++) {
+            this.currentPlayers.add(playerAgents[i]);
         }
         this.step = 0;
     }
@@ -43,21 +43,7 @@ public class PlayGameBehaviour extends Behaviour {
         if (numPlayers % 2 == 0 && numArbiters >= numRounds) {
             if (step == 0) {
                 System.out.println("Assegno i giocatori e gli arbitri per il round: " + numRoundsPlayed);
-                int currentPlayer = 0;
-                for (int i = 0; i < arbiterAgents.length; ++i) {
-                    ProposalToArbiter game = new ProposalToArbiter(playerAgents[currentPlayer],
-                            playerAgents[currentPlayer + 1], numRoundsPlayed);
-                    ACLMessage msg = new ACLMessage(ACLMessage.PROPOSE);
-                    try {
-                        msg.setContentObject(game);
-                        msg.addReceiver(arbiterAgents[i]);
-                        currentPlayer += 2;
-                        getAgent().send(msg);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
+                assign_players_and_arbiters();
                 step++;
             } else {
                 mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
@@ -68,20 +54,17 @@ public class PlayGameBehaviour extends Behaviour {
                     try {
                         content = (InformWin) msg.getContentObject();
                         AID winner = content.getWinner();
-                        winnersRound.get(numRoundsPlayed).add(winner);
-                        if (winnersRound.get(numRoundsPlayed).size() == numPlayers) {
-                            playerAgents = new AID[numPlayers];
-                            for (int i = 0; i < numPlayers; ++i) {
-                                playerAgents[i] = winnersRound.get(numRoundsPlayed).get(i);
-                            }
-                            winnersRound.add(new ArrayList<AID>());
+                        currentPlayers.add(winner);
+                        if (currentPlayers.size() == numPlayers/2) {
+                            numRoundsPlayed++;
+                            numPlayers = currentPlayers.size();
                             step--;
                             // aspettiamo un attimo prima di far inziare il round successivo
                             getAgent().doWait(300);
                             System.out.println(
                                     "Procediamo con la fase successiva! Si giocherà a breve il round: "
                                             + numRoundsPlayed);
-                        } numRoundsPlayed++;
+                        } 
                     } catch (UnreadableException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -102,7 +85,7 @@ public class PlayGameBehaviour extends Behaviour {
         boolean cond = numRoundsPlayed == numRounds;
         if (cond) {
             System.out.println("Fine del gioco!");
-            ((MasterArbiterAgent) myAgent).setWinner(winnersRound.get(numRoundsPlayed - 1).get(0));
+            ((MasterArbiterAgent) myAgent).setWinner(currentPlayers.get(0));
             
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
             msg.setContent("END");
@@ -116,6 +99,24 @@ public class PlayGameBehaviour extends Behaviour {
             getAgent().doDelete();
         }
         return cond;
+    }
+
+    private void assign_players_and_arbiters(){
+        Collections.shuffle(currentPlayers);
+        for (int i = 0; i < numPlayers/2; i=i+2) {
+            ProposalToArbiter game = new ProposalToArbiter(currentPlayers.get(i),
+                    currentPlayers.get(i+1), numRoundsPlayed, numRounds);
+            ACLMessage msg = new ACLMessage(ACLMessage.PROPOSE);
+            try {
+                msg.setContentObject(game);
+                msg.addReceiver(arbiterAgents[i]);
+                getAgent().send(msg);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        currentPlayers = new ArrayList<AID>();
     }
 
 }

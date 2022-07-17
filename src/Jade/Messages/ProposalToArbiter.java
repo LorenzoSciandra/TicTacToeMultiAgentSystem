@@ -3,18 +3,19 @@ package Jade.Messages;
 import java.io.Serializable;
 
 import jade.core.AID;
-import jade.lang.acl.ACLMessage;
 
 public class ProposalToArbiter implements Serializable {
 
     private AID firstPlayer;
     private AID secondPlayer;
     private int round;
+    private int totalRounds;
 
-    public ProposalToArbiter(AID firstPlayer, AID secondPlayer, int round) {
+    public ProposalToArbiter(AID firstPlayer, AID secondPlayer, int round, int totalRounds) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         this.round = round;
+        this.totalRounds = totalRounds;
     }
     
     public AID getFirstPlayer() {
@@ -27,5 +28,9 @@ public class ProposalToArbiter implements Serializable {
 
     public int getRound() {
         return round;
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
     }
 }

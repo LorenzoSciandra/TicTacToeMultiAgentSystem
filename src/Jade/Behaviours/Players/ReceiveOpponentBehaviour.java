@@ -27,6 +27,8 @@ public class ReceiveOpponentBehaviour extends Behaviour {
                 ((Player) getAgent()).setArbiter(msg.getSender());
                 ((Player) getAgent()).setSymbol(content.getSymbol());
                 ((Player) getAgent()).setStart(content.isFirstToPlay());
+                ((Player) getAgent()).setTotalRounds(content.getTotalRounds());
+                
                 System.out.println("StupidPlayerAgent " + getAgent().getAID().getName() + " received the opponent "
                         + ((Player) getAgent()).getOpponentAID().getName() + " and the arbiter "
                         + ((Player) getAgent()).getArbiterAID().getName() + ".");

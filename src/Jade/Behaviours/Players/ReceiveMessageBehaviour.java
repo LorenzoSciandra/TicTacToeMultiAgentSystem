@@ -27,9 +27,14 @@ public class ReceiveMessageBehaviour extends Behaviour {
           if (content.getWinnerSymbol() == ((Player) getAgent()).getSymbol()) {
             System.out.println("Agent " + getAgent().getAID().getName() + " ha vinto.");
             ((Player) getAgent()).setGrid(new Grid());
-            // getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
+            ((Player)getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
+
+            if(((Player) getAgent()).getRound() < ((Player) getAgent()).getTotalRounds()) {
+              getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
+            } 
           } else {
             System.out.println("Agent " + getAgent().getAID().getName() + " ha perso.");
+            ((Player)getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
           }
         } else {
           System.out.println(
