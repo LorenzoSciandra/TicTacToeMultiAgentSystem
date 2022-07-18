@@ -29,7 +29,10 @@ public class MasterArbiterAgent extends Agent {
             fe.printStackTrace();
         }
         System.out.println("Master Arbiter Agent " + getAID().getName() + " sta terminando.");
-        System.out.println("GAME OVER. VINCITORE: " + winner.getName());
+        if (winner != null) {
+            doWait(100);
+            System.out.println("GAME OVER. VINCITORE: " + winner.getName());
+        }
     }
 
     public AID[] getPlayers() {

@@ -20,7 +20,7 @@ public class GetPlayersArbitersBehaviour extends OneShotBehaviour {
 		templateArbiter.addServices(sdArbiter);
 		try {
 		    DFAgentDescription[] result = DFService.search(getAgent(), templateArbiter); 
-			System.out.println("Found the following arbiters agents:");
+			System.out.println("HO TROVATO I SEGUENTI ARBITRI:");
 			arbiterAgents = new AID[result.length];
 			for (int i = 0; i < result.length; ++i) {
 				arbiterAgents[i] = result[i].getName();
@@ -34,7 +34,7 @@ public class GetPlayersArbitersBehaviour extends OneShotBehaviour {
 
 			try{
 				DFAgentDescription[] result2 = DFService.search(getAgent(), templatePlayer); 
-				System.out.println("Found the following players agents:");
+				System.out.println("HO TROVATO I SEGUENTI GIOCATORI:");
 				playerAgents = new AID[result2.length];
 				for (int i = 0; i < result2.length; ++i) {
 					playerAgents[i] = result2[i].getName();

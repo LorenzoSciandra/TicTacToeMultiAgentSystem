@@ -26,14 +26,15 @@ public class ReceiveOpponentBehaviour extends CyclicBehaviour {
                 ((Player) getAgent()).setSymbol(content.getSymbol());
                 ((Player) getAgent()).setStart(content.isFirstToPlay());
                 ((Player) getAgent()).setTotalRounds(content.getTotalRounds());
+                ((Player) getAgent()).setRound(content.getRound());
 
-                System.out.println("Agent " + getAgent().getAID().getName() + " received the opponent "
-                        + ((Player) getAgent()).getOpponentAID().getName() + " and the arbiter "
+                System.out.println("Agent " + getAgent().getAID().getName() + " gioca contro "
+                        + ((Player) getAgent()).getOpponentAID().getName() + " con l'arbitro "
                         + ((Player) getAgent()).getArbiterAID().getName() + ".");
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                reply.setContent("OK, I accept to play the game against "
-                        + ((Player) getAgent()).getOpponentAID().getName() + " with arbiter "
+                reply.setContent("OK, Accetto di giocare contro "
+                        + ((Player) getAgent()).getOpponentAID().getName() + " con l'arbitro "
                         + ((Player) getAgent()).getArbiterAID().getName() + ".");
                 getAgent().send(reply);
                 if (((Player) getAgent()).getStart()) {

@@ -30,7 +30,7 @@ public class PlayGameBehaviour extends Behaviour {
         this.playerAgents = playerAgents;
         this.numPlayers = playerAgents.length;
         this.numArbiters = arbiterAgents.length;
-        this.numRounds = (int) Math.ceil(this.numPlayers / 2);
+        this.numRounds = (int) Math.ceil(Math.log(numPlayers));
         this.numRoundsPlayed = 0;
         this.currentPlayers = new ArrayList<AID>();
         for (int i = 0; i < playerAgents.length; i++) {
@@ -75,7 +75,17 @@ public class PlayGameBehaviour extends Behaviour {
             }
         } else {
             System.out.println("NUMERO NON CORRETTO DI GIOCATORI O ARBITRI");
-            getAgent().removeBehaviour(this);
+            ((MasterArbiterAgent) myAgent).setWinner(currentPlayers.get(0));
+
+            ACLMessage msg = new ACLMessage(ACLMessage.CONFIRM);
+            msg.setContent("END");
+            for (AID aAID : playerAgents) {
+                msg.addReceiver(aAID);
+            }
+            for (AID aAID : arbiterAgents) {
+                msg.addReceiver(aAID);
+            }
+            getAgent().send(msg);
             getAgent().doDelete();
         }
     }

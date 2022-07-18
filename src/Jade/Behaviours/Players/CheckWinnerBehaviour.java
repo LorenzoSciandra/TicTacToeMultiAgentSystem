@@ -18,19 +18,14 @@ public class CheckWinnerBehaviour extends CyclicBehaviour {
             switch (msg.getContent()) {
                 case "WIN":
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha vinto.");
-                    if (((Player) getAgent()).getRound() < ((Player) getAgent()).getTotalRounds()) {
-                        ((Player) getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
+                    if (((Player) getAgent()).getRound() < ((Player) getAgent()).getTotalRounds() - 1) {
                         ((Player) getAgent()).setGrid(new Grid());
                         System.out.println("HO VINTO E ASPETTO IL PROSSIMO ROUND " + getAgent().getName());
                         getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
-                    } else {
-                        getAgent().addBehaviour(new EndGameBehaviour());
                     }
                     break;
                 case "LOSE":
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha perso.");
-                    ((Player) getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
-                    getAgent().addBehaviour(new EndGameBehaviour());
                     break;
                 case "TIE": // TIE
                     System.out.println("PAREGGIO");

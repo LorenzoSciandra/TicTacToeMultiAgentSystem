@@ -31,19 +31,18 @@ public class WaitProposalArbiterBehaviour extends Behaviour {
 
                 ACLMessage reply = msg.createReply();
                 reply.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                reply.setContent("OK, I accept to check the game between "
-                        + ((ArbiterAgent) getAgent()).getFirstPlayer().getName() + " and "
+                reply.setContent("OK, Accetto di arbitrare il gioco tra "
+                        + ((ArbiterAgent) getAgent()).getFirstPlayer().getName() + " e "
                         + ((ArbiterAgent) getAgent()).getSecondPlayer().getName() + ".");
                 getAgent().send(reply);
 
                 ACLMessage firstPlayerMsg = new ACLMessage(ACLMessage.PROPOSE);
-                firstPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getSecondPlayer(), true, "X", proposal.getTotalRounds()));
+                firstPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getSecondPlayer(), true, "X", proposal.getTotalRounds(), proposal.getRound()));
                 ACLMessage secondPlayerMsg = new ACLMessage(ACLMessage.PROPOSE);
-                secondPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getFirstPlayer(), false, "O", proposal.getTotalRounds()));
+                secondPlayerMsg.setContentObject(new ProposalToPlayer(proposal.getFirstPlayer(), false, "O", proposal.getTotalRounds(), proposal.getRound()));
                 firstPlayerMsg.addReceiver(proposal.getFirstPlayer());
                 secondPlayerMsg.addReceiver(proposal.getSecondPlayer());
-                System.out.println("I GIOCATORI SARANNO: " + proposal.getFirstPlayer().getName() + " e "
-                        + proposal.getSecondPlayer().getName());
+            
                 getAgent().send(firstPlayerMsg);
                 getAgent().send(secondPlayerMsg);
                 getAgent().addBehaviour(new GameToCheckBehaviour());
