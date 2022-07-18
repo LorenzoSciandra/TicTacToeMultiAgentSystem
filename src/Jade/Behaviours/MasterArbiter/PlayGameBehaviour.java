@@ -43,7 +43,7 @@ public class PlayGameBehaviour extends Behaviour {
     public void action() {
         if (numPlayers % 2 == 0 && numArbiters >= numRounds) {
             if (step == 0) {
-                System.out.println("Assegno i giocatori e gli arbitri per il round: " + numRoundsPlayed);
+                System.out.println("Assegno i giocatori e gli arbitri per il round: " + numRoundsPlayed+1);
                 assign_players_and_arbiters();
                 step++;
             } else {
@@ -61,7 +61,7 @@ public class PlayGameBehaviour extends Behaviour {
                             numPlayers = currentPlayers.size();
                             step--;
                             if (numRoundsPlayed < numRounds) {
-                                System.out.println("Procediamo con la fase successiva! Si giocherà a breve il round: " + numRoundsPlayed);
+                                System.out.println("Procediamo con la fase successiva! Si giocherà a breve il round: " + numRoundsPlayed+1);
                                 System.out.println("Vincitori di questa fase: " + currentPlayers);
                             }
                         }

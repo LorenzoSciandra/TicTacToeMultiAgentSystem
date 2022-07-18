@@ -13,7 +13,6 @@ public class CheckWinnerBehaviour extends CyclicBehaviour {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM_IF);
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
-            System.out.println(getAgent().getName() + " " + msg.getContent());
             switch (msg.getContent()) {
                 case "WIN":
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha vinto.");
