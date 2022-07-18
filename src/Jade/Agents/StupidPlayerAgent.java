@@ -10,6 +10,7 @@ import jade.domain.FIPAException;
 public class StupidPlayerAgent extends Player{
  
     protected void setup() {
+        doWait(20000);
         setGrid(new Grid());
         setStupid(true);
         addBehaviour(new RegisterBehaviour("player", "Stupid Player"));

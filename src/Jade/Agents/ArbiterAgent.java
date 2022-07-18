@@ -20,6 +20,7 @@ public class ArbiterAgent extends Agent{
     private int totalRounds;
 
     protected void setup() {
+        doWait(20000);
         // Register
         addBehaviour(new RegisterBehaviour("arbiter", "Arbiter"));
         // Add the behaviour to receive the messages to play and to arbiter

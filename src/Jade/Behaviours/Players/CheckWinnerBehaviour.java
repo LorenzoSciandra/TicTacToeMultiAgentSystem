@@ -2,7 +2,6 @@ package Jade.Behaviours.Players;
 
 import Jade.Grid;
 import Jade.Agents.Player;
-import Jade.Behaviours.EndGameBehaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
