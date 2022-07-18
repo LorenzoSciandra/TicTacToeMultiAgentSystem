@@ -19,6 +19,7 @@ public class PlayBehaviour extends Behaviour {
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
         try {
             decideMove();
+            System.out.println("Agent " + getAgent().getAID().getName() + " ha scelto la mossa");
             GridMessage content = new GridMessage(((StupidPlayerAgent) getAgent()).getGrid());
             done = true;
             msg.setContentObject(content);
@@ -35,8 +36,6 @@ public class PlayBehaviour extends Behaviour {
         StupidPlayerAgent a = ((StupidPlayerAgent) getAgent());
         ArrayList<Integer> freeCells = (ArrayList<Integer>) a.getGrid().getFreeCells();
         int randomIndex = (int) (Math.random() * freeCells.size());
-        System.out.println("Random index: " + randomIndex);
-        System.out.println("Free cells: " + freeCells);
         a.getGrid().setCell(freeCells.get(randomIndex), a.getSymbol());
     }
 

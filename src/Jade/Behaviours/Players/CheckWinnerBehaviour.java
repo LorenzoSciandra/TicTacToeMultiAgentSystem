@@ -27,21 +27,16 @@ public class CheckWinnerBehaviour extends CyclicBehaviour {
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha perso.");
                     break;
                 case "TIE": // TIE
-                    System.out.println("PAREGGIO");
+                System.out.println("Agent " + getAgent().getAID().getName() + " ha pareggiato.");
                     ((Player) getAgent()).setGrid(new Grid());
                     if (((Player) getAgent()).getStart()) {
                         getAgent().doWait(1000);
-                        //((Player) getAgent()).setStart(false);
-                        //((Player) getAgent()).setSymbol("O");
                         if (((Player) getAgent()).getStupid()) {
-                            // aspettiamo che anche l'altro player abbia resettato il tutto
                             getAgent().addBehaviour(new PlayBehaviour());
                         } else {
                             getAgent().addBehaviour(new IntelligentPlayBehaviour());
                         }
                     } else {
-                        //((Player) getAgent()).setStart(true);
-                        //((Player) getAgent()).setSymbol("X");
                         getAgent().addBehaviour(new ReceiveMessageBehaviour());
                     }
                     break;
