@@ -1,21 +1,23 @@
 package Jade.Behaviours.Players;
 
-import jade.core.behaviours.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Jade.Agents.*;
-import Jade.Messages.*;
+import Jade.Agents.StupidPlayerAgent;
+import Jade.Messages.GridMessage;
+import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
 public class PlayBehaviour extends Behaviour {
 
     private boolean done = false;
 
+    /**
+     * Behaviour of the stupid player.
+     * When a message is received from the arbiter (at any turn in the game)
+     * the player decides its move, then it sends it to the arbiter.
+     */
     public void action() {
-        // Get a random free position from the 3x3 grid (0,1,2) x (0,1,2)
-        // Send the message to the arbiter
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
         try {
             decideMove();
@@ -27,11 +29,13 @@ public class PlayBehaviour extends Behaviour {
             getAgent().send(msg);
             getAgent().addBehaviour(new ReceiveMessageBehaviour());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    /**
+     * Returns a random free position from the 3x3 grid (0,1,2) x (0,1,2)
+     */
     private void decideMove() {
         StupidPlayerAgent a = ((StupidPlayerAgent) getAgent());
         ArrayList<Integer> freeCells = (ArrayList<Integer>) a.getGrid().getFreeCells();

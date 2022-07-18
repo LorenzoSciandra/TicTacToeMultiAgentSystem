@@ -12,9 +12,12 @@ public class IntelligentPlayBehaviour extends Behaviour {
 
     private boolean mossaFatta = false;
 
+    /**
+     * Behaviour of the intelligent player.
+     * When a message is received from the arbiter (at any turn in the game)
+     * the player decides its move, then it sends it to the arbiter.
+     */
     public void action() {
-        // Get a random free position from the 3x3 grid (0,1,2) x (0,1,2)
-        // Send the message to the arbiter
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
         GridMessage content = new GridMessage(((IntelligentPlayerAgent) getAgent()).getGrid());
         try {
@@ -26,13 +29,15 @@ public class IntelligentPlayBehaviour extends Behaviour {
             getAgent().send(msg);
             getAgent().addBehaviour(new ReceiveMessageBehaviour());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    /**
+     * Method that decides the move of the player.
+     * Differentiates between the turns number with cases.
+     */
     public void decideMove() {
-        // Differentiate between the turns number with cases
         int turn = 10 - ((IntelligentPlayerAgent) getAgent()).getGrid().getFreeCells().size();
         switch (turn) {
             case 1:
@@ -50,7 +55,7 @@ public class IntelligentPlayBehaviour extends Behaviour {
         }
     }
 
-    public void firstTurn() {
+    private void firstTurn() {
         // If it's the first turn, we want to start in a random corner, so:
         // (0,0), (0,2), (2,0), (2,2)
         // First, we randomly select 2 or 0 to be the row, then we randomly select 0 or
@@ -67,7 +72,7 @@ public class IntelligentPlayBehaviour extends Behaviour {
                 ((IntelligentPlayerAgent) getAgent()).getSymbol());
     }
 
-    public void secondTurn() {
+    private void secondTurn() {
         // If it's the second turn, another agent has already played somewhere. We want
         // to place, if it's free, the spot in the center
         // If it's not free, we want to place the spot in the corner.
@@ -93,7 +98,7 @@ public class IntelligentPlayBehaviour extends Behaviour {
         }
     }
 
-    public void thirdTurn() {
+    private void thirdTurn() {
         // If it's the third turn, we have occupied a corner for sure! We want to place
         // the symbol in the opposite corner
         // And if it's not free, we choose the center. And if it's not free, we choose a
@@ -126,14 +131,15 @@ public class IntelligentPlayBehaviour extends Behaviour {
                 ArrayList<Integer> freeCells = (ArrayList<Integer>) ((IntelligentPlayerAgent) getAgent()).getGrid()
                         .getFreeCells();
                 int randomIndex = (int) (Math.random() * freeCells.size());
-                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),((IntelligentPlayerAgent) getAgent()).getSymbol());
+                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),
+                        ((IntelligentPlayerAgent) getAgent()).getSymbol());
 
             }
         }
 
     }
 
-    public void otherTurns() {
+    private void otherTurns() {
         // In any other turn, we want to check if we can win horizontally, vertically or
         // diagonally.
         // If we can, we want to place the symbol in the winning position.

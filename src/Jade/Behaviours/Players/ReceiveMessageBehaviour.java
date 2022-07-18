@@ -1,9 +1,9 @@
 package Jade.Behaviours.Players;
 
-import Jade.*;
-import jade.core.behaviours.*;
-import Jade.Messages.*;
-import Jade.Agents.*;
+import Jade.Grid;
+import Jade.Agents.Player;
+import Jade.Messages.GridMessage;
+import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
@@ -12,6 +12,10 @@ public class ReceiveMessageBehaviour extends Behaviour {
 
     private boolean messageReceived = false;
 
+    /**
+     * When a message of a move is received, the agents starts the PlayBehaviour,
+     * updating his grid with the new move from the opponent.
+     */
     public void action() {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
         ACLMessage msg = getAgent().receive(mt);
@@ -21,7 +25,8 @@ public class ReceiveMessageBehaviour extends Behaviour {
                 messageReceived = true;
                 content = (GridMessage) msg.getContentObject();
 
-                System.out.println("Agent " + getAgent().getAID().getName() + " ha ricevuto il messaggio della mossa dell'avversario.");
+                System.out.println("Agent " + getAgent().getAID().getName()
+                        + " ha ricevuto il messaggio della mossa dell'avversario.");
                 Grid receivedGrid = content.getGrid();
                 ((Player) getAgent()).setGrid(receivedGrid);
                 if (!(receivedGrid.isFull() || receivedGrid.isWinner())) {
@@ -32,7 +37,6 @@ public class ReceiveMessageBehaviour extends Behaviour {
                     }
                 }
             } catch (UnreadableException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

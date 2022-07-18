@@ -14,6 +14,12 @@ public class ReceiveOpponentBehaviour extends CyclicBehaviour {
         this.stupid = stupid;
     }
 
+    /**
+     * This behaviour is essential for the player to understand who is going to be
+     * its arbiter and opponent for the game.
+     * When a message of a game proposal is received from the arbiter, the player
+     * accepts the proposal and schedules the PlayBehaviour
+     */
     public void action() {
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
         ACLMessage msg = myAgent.receive(mt);
@@ -47,7 +53,6 @@ public class ReceiveOpponentBehaviour extends CyclicBehaviour {
                     getAgent().addBehaviour(new ReceiveMessageBehaviour());
                 }
             } catch (UnreadableException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             getAgent().removeBehaviour(this);
