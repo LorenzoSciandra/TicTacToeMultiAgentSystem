@@ -9,6 +9,15 @@ import jade.domain.FIPAException;
 
 public class IntelligentPlayerAgent extends Player {
 
+    /**
+     * Setups the agent for the game.
+     * In the following order the agent:
+     * - Initializes the grid
+     * - Sets himself as NOT-Stupid (to differenciate this agent from the stupid one)
+     * - Regisers the agent in the DF
+     * - Sets himself ready to receive his opponent and start the game
+     * - Periodically checks if there's a winner or the game is over
+     */
     protected void setup() {
         setGrid(new Grid());
         setStupid(false);

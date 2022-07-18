@@ -13,12 +13,16 @@ public class MasterArbiterAgent extends Agent {
     private AID[] playerAgents;
     private AID winner;
 
+    /**
+     * Setups the agent for the game.
+     * In the following order the agent:
+     * - Register himself in the DF
+     * - Waits for all the players and arbiters to be ready
+     * - Adds a behaviour to assign all the arbiters to the players and wait for the games to finish
+     */
     protected void setup() {
-        // Register
         addBehaviour(new RegisterBehaviour("master-arbiter", "Master Arbiter"));
-        // Wait that all agents are registered
         doWait(500);
-        // Add the behaviour to receive the messages to play and to arbiter
         addBehaviour(new GetPlayersArbitersBehaviour());
     }
 
@@ -35,26 +39,56 @@ public class MasterArbiterAgent extends Agent {
         }
     }
 
+    
+    /** 
+     * Returns the array of the player agents
+     * @return AID[]
+     */
     public AID[] getPlayers() {
         return this.playerAgents;
     }
 
+    
+    /** 
+     * Sets the array of the player agents
+     * @param players
+     */
     public void setPlayers(AID[] players) {
         this.playerAgents = players;
     }
 
+    
+    /** 
+     * Returns the array of the arbiter agents
+     * @return AID[]
+     */
     public AID[] getArbiters() {
         return this.arbiterAgents;
     }
 
+    
+    /** 
+     * Sets the array of the arbiter agents
+     * @param players
+     */
     public void setArbiters(AID[] players) {
         this.arbiterAgents = players;
     }
 
+    
+    /** 
+     * Returns the winner agent AID
+     * @return AID
+     */
     public AID getWinner() {
         return this.winner;
     }
 
+    
+    /** 
+     * Sets the winner agent AID
+     * @param winner
+     */
     public void setWinner(AID winner) {
         this.winner = winner;
     }

@@ -24,17 +24,40 @@ public class Grid implements Serializable {
         }
     }
 
-    // Getter and setters
+    
+    /** 
+     * Returns the cell symbol at the specified position in the grid.
+     * @param row
+     * @param col
+     * @return String
+     */
     public String getCell(int row, int col) {
         return grid[row][col];
     }
 
+    
+    /** 
+     * Returns the cell symbol at the specified position in the grid, using the
+     * grid indexing convention.
+     * @param num
+     * @return String
+     */
     public String getCell(int num) {
         int row = num / 3;
         int col = num % 3;
         return grid[row][col];
     }
 
+    
+    /** 
+     * Sets the cell symbol at the specified position in the grid.
+     * First, we check if the cell is free, using the isLegal(row, col) method.
+     * If it is, we set the cell symbol.
+     * @param row
+     * @param col
+     * @param value
+     * @return boolean
+     */
     public boolean setCell(int row, int col, String value) {
         // Check for availability
         // System.out.println("STO CERCANDO DI METTERE IL SIMBOLO " + value + " IN (" + row + "," + col + ")");
@@ -48,28 +71,52 @@ public class Grid implements Serializable {
         }
     }
 
+    
+    /** 
+     * Sets the cell symbol at the specified position in the grid, using the
+     * grid indexing convention.
+     * @param num
+     * @param value
+     * @return boolean
+     */
     public boolean setCell(int num, String value) {
         int row = num / 3;
         int col = num % 3;
         return setCell(row, col, value);
     }
 
-    // Check if the grid is full
+    
+    /** 
+     * Checks if the grid is full.
+     * @return boolean
+     */
     public boolean isFull() {
         return freeCells.size() == 0;
     }
 
-    // Check if the grid is empty
+    
+    /** 
+     * Checks if the grid is empty.
+     * @return boolean
+     */
     public boolean isEmpty() {
         return freeCells.size() == 9;
     }
 
-    // Check if the grid is a draw
+    
+    /**
+     * Check if the grid contains a draw. 
+     * @return boolean
+     */
     public boolean isDraw() {
         return isFull() && !isWinner();
     }
 
-    // Check if the grid is a winner
+    
+    /** 
+     * Checks if somebody has won in the grid.
+     * @return boolean
+     */
     public boolean isWinner() {
         // Check rows
         boolean horizontally = grid[0][0].equals(grid[0][1])
@@ -93,6 +140,11 @@ public class Grid implements Serializable {
         return horizontally || vertically || diagonally;
     }
 
+    
+    /** 
+     * Returns the symbol of the winner in the grid.
+     * @return String
+     */
     public String getWinner() {
         if (isWinner()) {
             if (grid[0][0].equals(grid[1][1]) && grid[1][1].equals(grid[2][2])) {
@@ -117,34 +169,73 @@ public class Grid implements Serializable {
         return null;
     }
 
-    // Check if a move is legal
+    
+    /** 
+     * Checks if a move is legal in the grid.
+     * @param row
+     * @param col
+     * @return boolean
+     */
     public boolean isLegal(int row, int col) {
         return freeCells.contains((Integer) (row * 3 + col));
     }
 
-    // Same method as isLegal but with a cell number
+    
+    /** 
+     * Checks if a move is legal in the grid, using the grid indexing convention.
+     * @param row
+     * @param col
+     * @return boolean
+     */
     public boolean isFree(int row, int col) {
         return grid[row][col].equals(" ");
     }
 
+    
+    /** 
+     * Check if the symbol "symbol" is in the grid at the specified position.
+     * @param row
+     * @param col
+     * @param symbol
+     * @return boolean
+     */
     public boolean isMySymbolThere(int row, int col, String symbol) {
         return grid[row][col].equals(symbol);
     }
 
+    
+    /** 
+     * Returns the grid.
+     * @return String[][]
+     */
     public String[][] getGrid() {
         return this.grid;
     }
 
+    
+    /** 
+     * Returns the free cells.
+     * @return List<Integer>
+     */
     public List<Integer> getFreeCells() {
         return this.freeCells;
     }
 
+    
+    /** 
+     * Sets the grid.
+     * @param grid
+     */
     public void setGrid(Grid grid) {
         this.grid = grid.getGrid();
         this.freeCells = grid.getFreeCells();
     }
 
-    // Print the grid in a nice way
+    
+    /** 
+     * Prints the grid in a nice way.
+     * @return String
+     */
     public void printGrid() {
         System.out.println("---------");
         for (int i = 0; i < 3; i++) {
@@ -157,6 +248,11 @@ public class Grid implements Serializable {
         System.out.println("---------");
     }
 
+    
+    /** 
+     * Returns the grid as a string.
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
