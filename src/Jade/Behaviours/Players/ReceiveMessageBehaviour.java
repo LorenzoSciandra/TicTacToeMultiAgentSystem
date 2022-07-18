@@ -21,7 +21,7 @@ public class ReceiveMessageBehaviour extends Behaviour {
                 messageReceived = true;
                 content = (GridMessage) msg.getContentObject();
 
-                System.out.println("Agent " + getAgent().getAID().getName() + " ha ricevuto il messaggio e sta facendo la mossa...");
+                System.out.println("Agent " + getAgent().getAID().getName() + " ha ricevuto il messaggio della mossa dell'avversario.");
                 Grid receivedGrid = content.getGrid();
                 ((Player) getAgent()).setGrid(receivedGrid);
                 if (!(receivedGrid.isFull() || receivedGrid.isWinner())) {

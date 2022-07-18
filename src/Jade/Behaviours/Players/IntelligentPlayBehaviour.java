@@ -19,6 +19,7 @@ public class IntelligentPlayBehaviour extends Behaviour {
         GridMessage content = new GridMessage(((IntelligentPlayerAgent) getAgent()).getGrid());
         try {
             decideMove();
+            System.out.println("Agent " + getAgent().getAID().getName() + " ha scelto la mossa");
             mossaFatta = true;
             msg.setContentObject(content);
             msg.addReceiver(((IntelligentPlayerAgent) getAgent()).getArbiterAID());
@@ -125,14 +126,7 @@ public class IntelligentPlayBehaviour extends Behaviour {
                 ArrayList<Integer> freeCells = (ArrayList<Integer>) ((IntelligentPlayerAgent) getAgent()).getGrid()
                         .getFreeCells();
                 int randomIndex = (int) (Math.random() * freeCells.size());
-                int randomRow = freeCells.get(randomIndex) / 3;
-                int randomCol = freeCells.get(randomIndex) % 3;
-                while (!((IntelligentPlayerAgent) getAgent()).getGrid().setCell(randomRow, randomCol,
-                        ((IntelligentPlayerAgent) getAgent()).getSymbol())) {
-                    randomIndex = (int) (Math.random() * freeCells.size());
-                    randomRow = freeCells.get(randomIndex) / 3;
-                    randomCol = freeCells.get(randomIndex) % 3;
-                }
+                ((IntelligentPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),((IntelligentPlayerAgent) getAgent()).getSymbol());
 
             }
         }
