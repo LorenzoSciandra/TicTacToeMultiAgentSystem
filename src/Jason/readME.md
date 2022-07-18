@@ -4,5 +4,5 @@
 To run the program, open the terminal here and execute:
 
 ```bash
-    ../../lib/jason-3.1/scripts/jason src/jason/game.mas2j
+    ../../lib/jason-3.1/scripts/jason game.mas2j
 ```

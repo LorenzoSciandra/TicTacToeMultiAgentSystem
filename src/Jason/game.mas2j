@@ -3,7 +3,7 @@ MAS game {
 
     agents: 
         master_arbiter;
-        arbiter #4;
-        stupid_player #4;
-        intelligent_player #4;
+        arbiter #1;
+        stupid_player #1;
+        intelligent_player #1;
 }

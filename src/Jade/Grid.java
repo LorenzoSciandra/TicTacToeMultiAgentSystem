@@ -37,7 +37,7 @@ public class Grid implements Serializable {
 
     public boolean setCell(int row, int col, String value) {
         // Check for availability
-        System.out.println("STO CERCANDO DI METTERE IL SIMBOLO " + value + " IN (" + row + "," + col + ")");
+        // System.out.println("STO CERCANDO DI METTERE IL SIMBOLO " + value + " IN (" + row + "," + col + ")");
         if (this.isLegal(row, col)) {
             grid[row][col] = value;
             // update free cells
