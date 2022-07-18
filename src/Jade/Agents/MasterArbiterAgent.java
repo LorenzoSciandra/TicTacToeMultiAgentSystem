@@ -14,7 +14,6 @@ public class MasterArbiterAgent extends Agent {
     private AID winner;
 
     protected void setup() {
-        doWait(21000);
         // Register
         addBehaviour(new RegisterBehaviour("master-arbiter", "Master Arbiter"));
         // Wait that all agents are registered
