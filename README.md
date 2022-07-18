@@ -18,23 +18,53 @@ For each tournament, _3_ different types of agents are created:
   - **Stupid Player**: chooses the move randomly;
   - **Intelligent Player**: if he has the chance to win he catches it and if he succeeds he avoids making the opponent win. If he is the first to make the move, he always chooses a corner, otherwise the central cell.
 
-## State Transition Systems
-
+## Agent Description
+Here is the description of the agents:
 ### Master Arbiter
+The Master Arbiter is the one who organizes the tournament and it creates the matches. After waiting for all players and arbiters to register, proceed as follows:
+1. Register himself and creates the list of all the players and arbiters and shuffles it;
+2. Creates a list of couples of players that have to play each other with an arbiter who will control the game. Notify the arbiter of the list of couples and wait for the arbiters to accept or reject the list;
+3. Wait untill all the matches are finished with a winner notified by the Arbiter;
+4. If there is only a single winner, he is the winner of the tournament and tells to everybpdy to terminate, otherwise he has to start the next round. So he creates a list of the winners of the previous round and go to step 2.
+#### State Transition Systems
+![Schema of the flow of the Master Arbiter](documentation/MasterArbiterSchema.png)
 
-![Schema of the flow of the game](documentation/Drawio/MasterArbiterSchemaBackground.png)
+### Arbiter
+The Arbiter is the one who controls the progress of one game. His steps are:
+1. Register himself;
+2. Wait untill the Master Arbiter send to him the couple of players that he must control, or until he is notified that the tournament is finished;
+3. Send a message to the players with his symbol, the name of the opponent and if he is the first to make the move;
+4. Check every move of the players and if there is a winner, notify the Master Arbiter and the players that the game ended. If there is no winner, and the game is a tie, it repeats the game;
+5. Go to step 2. So the Arbiter can play again, if the Master Arbiter wants to.
+
+#### State Transition Systems
+![Schema of the flow of the Arbiter](documentation/ArbiterSchema.png)
+
+### Player
+The Player is the one who makes the move. There is no difference between the two types of players except for the way they choose the move. The following steps are:
+1. Register himself;
+2. Wait untill the Arbiter send to him the player he will play with, the symbol he will use and if he is the first to make the move;
+3. Until the game is finished, he makes the move, sends it to the Arbiter and waits for the move of the opponent;
+4. if he is the winner and there is more than one round to play go to step 2, otherwise wait for the Master Arbiter to terminate.
+
+#### State Transition Systems
+![Schema of the flow of the Arbiter](documentation/PlayerSchema.png)
 
 ## Game examples
-
+For the sake of brevity, only tournament executions that end after the first round, ie with only 2 players, will be shown here. However, the program, as mentioned earlier, works with an arbitrary number of players, as long as it is a power of two and there are the right number of referees.
 ### JADE: 1
-
-![Example iteration of a game](documentation/game.png)
 
 A game between a Stupid player and an intelligent player.
 Intelligent player starts the game with symbol X and Stupid player with the symbol O.
 The following are the _configurations_ in between the game:
+![Game Board](documentation/gameBoard.png)
 
-![Game Board](documentation/gameboard.png)
+These are the interactions between the agents in the Jade Platform:
+
+![Example iteration of a game](documentation/game.png)
+
+
+
 
 ### JADE: 2 (Terminal Only)
 
