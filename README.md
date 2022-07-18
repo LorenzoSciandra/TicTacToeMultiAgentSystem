@@ -77,7 +77,7 @@ a1@192.168.1.72:1099/JADE
 HO TROVATO I SEGUENTI GIOCATORI:
 s1@192.168.1.72:1099/JADE
 i1@192.168.1.72:1099/JADE
-Assegno i giocatori e gli arbitri per il round: 01
+Assegno i giocatori e gli arbitri per il round: 1
 Agent i1@192.168.1.72:1099/JADE gioca contro s1@192.168.1.72:1099/JADE con l'arbitro a1@192.168.1.72:1099/JADE.
 Agent s1@192.168.1.72:1099/JADE gioca contro i1@192.168.1.72:1099/JADE con l'arbitro a1@192.168.1.72:1099/JADE.
 Agent i1@192.168.1.72:1099/JADE ha scelto la mossa
