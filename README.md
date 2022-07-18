@@ -39,99 +39,104 @@ The following are the _configurations_ in between the game:
 ### JADE: 2 (Terminal Only)
 
 ```bash
-Jul 18, 2022 12:17:20 PM jade.core.Runtime beginContainer
+Jul 18, 2022 3:51:28 PM jade.core.Runtime beginContainer
 INFO: ----------------------------------
     This is JADE 4.5.0 - revision 6825 of 23-05-2017 10:06:04
     downloaded in Open Source, under LGPL restrictions,
     at http://jade.tilab.com/
 ----------------------------------------
-Jul 18, 2022 12:17:20 PM jade.imtp.leap.LEAPIMTPManager initialize
+Jul 18, 2022 3:51:28 PM jade.imtp.leap.LEAPIMTPManager initialize
 INFO: Listening for intra-platform commands on address:
-- jicp://192.168.1.145:1099
+- jicp://192.168.1.72:1099
 
-Jul 18, 2022 12:17:20 PM jade.core.BaseService init
+Jul 18, 2022 3:51:28 PM jade.core.BaseService init
 INFO: Service jade.core.management.AgentManagement initialized
-Jul 18, 2022 12:17:20 PM jade.core.BaseService init
+Jul 18, 2022 3:51:28 PM jade.core.BaseService init
 INFO: Service jade.core.messaging.Messaging initialized
-Jul 18, 2022 12:17:20 PM jade.core.BaseService init
+Jul 18, 2022 3:51:28 PM jade.core.BaseService init
 INFO: Service jade.core.resource.ResourceManagement initialized
-Jul 18, 2022 12:17:20 PM jade.core.BaseService init
+Jul 18, 2022 3:51:28 PM jade.core.BaseService init
 INFO: Service jade.core.mobility.AgentMobility initialized
-Jul 18, 2022 12:17:20 PM jade.core.BaseService init
+Jul 18, 2022 3:51:28 PM jade.core.BaseService init
 INFO: Service jade.core.event.Notification initialized
-Jul 18, 2022 12:17:20 PM jade.mtp.http.HTTPServer <init>
+Jul 18, 2022 3:51:28 PM jade.mtp.http.HTTPServer <init>
 INFO: HTTP-MTP Using XML parser com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser
-Jul 18, 2022 12:17:20 PM jade.core.messaging.MessagingService boot
+Jul 18, 2022 3:51:28 PM jade.core.messaging.MessagingService boot
 INFO: MTP addresses:
-http://localhost:7778/acc
-Jul 18, 2022 12:17:20 PM jade.core.AgentContainerImpl joinPlatform
+http://popos:7778/acc
+Jul 18, 2022 3:51:28 PM jade.core.AgentContainerImpl joinPlatform
 INFO: --------------------------------------
-Agent container Main-Container@192.168.1.145 is ready.
+Agent container Main-Container@192.168.1.72 is ready.
 --------------------------------------------
-player intelligentPlayer@192.168.1.145:1099/JADE registered in DF.
-player stupidPlayer@192.168.1.145:1099/JADE registered in DF.
-arbiter arbiter@192.168.1.145:1099/JADE registered in DF.
-master-arbiter masterArbiter@192.168.1.145:1099/JADE registered in DF.
+player i1@192.168.1.72:1099/JADE registered in DF.
+arbiter a1@192.168.1.72:1099/JADE registered in DF.
+player s1@192.168.1.72:1099/JADE registered in DF.
+master-arbiter m1@192.168.1.72:1099/JADE registered in DF.
 HO TROVATO I SEGUENTI ARBITRI:
-arbiter@192.168.1.145:1099/JADE
+a1@192.168.1.72:1099/JADE
 HO TROVATO I SEGUENTI GIOCATORI:
-stupidPlayer@192.168.1.145:1099/JADE
-intelligentPlayer@192.168.1.145:1099/JADE
-Assegno i giocatori e gli arbitri per il round: 0
-Agent intelligentPlayer@192.168.1.145:1099/JADE gioca contro stupidPlayer@192.168.1.145:1099/JADE con l'arbitro arbiter@192.168.1.145:1099/JADE.
-Agent stupidPlayer@192.168.1.145:1099/JADE gioca contro intelligentPlayer@192.168.1.145:1099/JADE con l'arbitro arbiter@192.168.1.145:1099/JADE.
-Random index: 2
-Free cells: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+s1@192.168.1.72:1099/JADE
+i1@192.168.1.72:1099/JADE
+Assegno i giocatori e gli arbitri per il round: 01
+Agent i1@192.168.1.72:1099/JADE gioca contro s1@192.168.1.72:1099/JADE con l'arbitro a1@192.168.1.72:1099/JADE.
+Agent s1@192.168.1.72:1099/JADE gioca contro i1@192.168.1.72:1099/JADE con l'arbitro a1@192.168.1.72:1099/JADE.
+Agent i1@192.168.1.72:1099/JADE ha scelto la mossa
 ---------
-|     X |
 |       |
 |       |
----------
-Agent intelligentPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
----------
 |     X |
+---------
+Agent s1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent s1@192.168.1.72:1099/JADE ha scelto la mossa
+---------
+|       |
+|       |
+|   O X |
+---------
+Agent i1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent i1@192.168.1.72:1099/JADE ha scelto la mossa
+---------
+| X     |
+|       |
+|   O X |
+---------
+Agent s1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent s1@192.168.1.72:1099/JADE ha scelto la mossa
+---------
+| X     |
 |   O   |
-|       |
+|   O X |
 ---------
-Agent stupidPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
-Random index: 6
-Free cells: [0, 1, 3, 5, 6, 7, 8]
+Agent i1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent i1@192.168.1.72:1099/JADE ha scelto la mossa
 ---------
-|     X |
+| X X   |
 |   O   |
-|     X |
+|   O X |
 ---------
-Agent intelligentPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
+Agent s1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent s1@192.168.1.72:1099/JADE ha scelto la mossa
 ---------
-|     X |
-|   O O |
-|     X |
+| X X   |
+|   O   |
+| O O X |
 ---------
-Agent stupidPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
-Random index: 1
-Free cells: [0, 1, 3, 6, 7]
+Agent i1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent i1@192.168.1.72:1099/JADE ha scelto la mossa
 ---------
-|   X X |
-|   O O |
-|     X |
+| X X X |
+|   O   |
+| O O X |
 ---------
-Agent intelligentPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
----------
-|   X X |
-| O O O |
-|     X |
----------
-intelligentPlayer@192.168.1.145:1099/JADE WIN
-Agent intelligentPlayer@192.168.1.145:1099/JADE ha vinto.
-Agent stupidPlayer@192.168.1.145:1099/JADE ha ricevuto il messaggio e sta facendo la mossa...
-stupidPlayer@192.168.1.145:1099/JADE LOSE
-Agent stupidPlayer@192.168.1.145:1099/JADE ha perso.
+Agent i1@192.168.1.72:1099/JADE ha vinto.
+Agent s1@192.168.1.72:1099/JADE ha ricevuto il messaggio della mossa dell'avversario.
+Agent s1@192.168.1.72:1099/JADE ha perso.
 Fine del gioco!
-StupidPlayer Agent stupidPlayer@192.168.1.145:1099/JADE sta terminando.
-Master Arbiter Agent masterArbiter@192.168.1.145:1099/JADE sta terminando.
-IntelligentPlayer Agent intelligentPlayer@192.168.1.145:1099/JADE sta terminando.
-Arbiter Agent arbiter@192.168.1.145:1099/JADE sta terminando.
-GAME OVER. VINCITORE: intelligentPlayer@192.168.1.145:1099/JADE
+StupidPlayer Agent s1@192.168.1.72:1099/JADE sta terminando.
+Master Arbiter Agent m1@192.168.1.72:1099/JADE sta terminando.
+IntelligentPlayer Agent i1@192.168.1.72:1099/JADE sta terminando.
+Arbiter Agent a1@192.168.1.72:1099/JADE sta terminando.
+GAME OVER. VINCITORE: i1@192.168.1.72:1099/JADE
 ```
 
 ### JASON: 1
