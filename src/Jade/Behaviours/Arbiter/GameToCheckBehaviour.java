@@ -1,6 +1,7 @@
 package Jade.Behaviours.Arbiter;
 
 import Jade.Agents.ArbiterAgent;
+import Jade.Behaviours.EndGameBehaviour;
 import Jade.Messages.*;
 import jade.core.AID;
 import jade.core.behaviours.*;

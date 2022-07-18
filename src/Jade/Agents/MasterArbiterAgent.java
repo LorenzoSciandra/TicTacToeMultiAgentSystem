@@ -17,7 +17,7 @@ public class MasterArbiterAgent extends Agent {
         // Register
         addBehaviour(new RegisterBehaviour("master-arbiter", "Master Arbiter"));
         // Wait that all agents are registered
-        doWait(1000);
+        doWait(500);
         // Add the behaviour to receive the messages to play and to arbiter
         addBehaviour(new GetPlayersArbitersBehaviour());
     }

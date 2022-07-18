@@ -8,7 +8,7 @@ public class EndGameBehaviour extends CyclicBehaviour {
 
     @Override
     public void action() {
-        MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+        MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CONFIRM);
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null && msg.getContent().equals("END")) {
             myAgent.doDelete();

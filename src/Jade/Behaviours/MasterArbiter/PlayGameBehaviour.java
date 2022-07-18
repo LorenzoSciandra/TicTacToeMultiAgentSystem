@@ -60,10 +60,10 @@ public class PlayGameBehaviour extends Behaviour {
                             numRoundsPlayed++;
                             numPlayers = currentPlayers.size();
                             step--;
-                            // aspettiamo un attimo prima di far inziare il round successivo
-                            getAgent().doWait(300);
-                            System.out.println("Procediamo con la fase successiva! Si giocherà a breve il round: " + numRoundsPlayed);
-                            System.out.println("Vincitori di questa fase: " + currentPlayers);
+                            if (numRoundsPlayed < numRounds) {
+                                System.out.println("Procediamo con la fase successiva! Si giocherà a breve il round: " + numRoundsPlayed);
+                                System.out.println("Vincitori di questa fase: " + currentPlayers);
+                            }
                         }
                     } catch (UnreadableException e) {
                         // TODO Auto-generated catch block
@@ -87,7 +87,7 @@ public class PlayGameBehaviour extends Behaviour {
             System.out.println("Fine del gioco!");
             ((MasterArbiterAgent) myAgent).setWinner(currentPlayers.get(0));
 
-            ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+            ACLMessage msg = new ACLMessage(ACLMessage.CONFIRM);
             msg.setContent("END");
             for (AID aAID : playerAgents) {
                 msg.addReceiver(aAID);

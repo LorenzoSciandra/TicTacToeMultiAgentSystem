@@ -2,6 +2,7 @@ package Jade.Behaviours.Players;
 
 import Jade.Grid;
 import Jade.Agents.Player;
+import Jade.Behaviours.EndGameBehaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -17,17 +18,19 @@ public class CheckWinnerBehaviour extends CyclicBehaviour {
             switch (msg.getContent()) {
                 case "WIN":
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha vinto.");
-                    ((Player) getAgent()).setGrid(new Grid());
-
                     if (((Player) getAgent()).getRound() < ((Player) getAgent()).getTotalRounds()) {
-                        System.out.println("HO VINTO E ASPETTO IL PROSSIMO ROUND " + getAgent().getName());
                         ((Player) getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
+                        ((Player) getAgent()).setGrid(new Grid());
+                        System.out.println("HO VINTO E ASPETTO IL PROSSIMO ROUND " + getAgent().getName());
                         getAgent().addBehaviour(new ReceiveOpponentBehaviour(((Player) getAgent()).getStupid()));
+                    } else {
+                        getAgent().addBehaviour(new EndGameBehaviour());
                     }
                     break;
                 case "LOSE":
                     System.out.println("Agent " + getAgent().getAID().getName() + " ha perso.");
                     ((Player) getAgent()).setRound(((Player) getAgent()).getTotalRounds() + 1);
+                    getAgent().addBehaviour(new EndGameBehaviour());
                     break;
                 case "TIE": // TIE
                     System.out.println("PAREGGIO");

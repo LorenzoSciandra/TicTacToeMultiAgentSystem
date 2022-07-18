@@ -24,13 +24,13 @@ public class ReceiveMessageBehaviour extends Behaviour {
                 System.out.println("Agent " + getAgent().getAID().getName() + " ha ricevuto il messaggio e sta facendo la mossa...");
                 Grid receivedGrid = content.getGrid();
                 ((Player) getAgent()).setGrid(receivedGrid);
-
-                if (((Player) getAgent()).getStupid()) {
-                    getAgent().addBehaviour(new PlayBehaviour());
-                } else {
-                    getAgent().addBehaviour(new IntelligentPlayBehaviour());
+                if (!(receivedGrid.isFull() || receivedGrid.isWinner())) {
+                    if (((Player) getAgent()).getStupid()) {
+                        getAgent().addBehaviour(new PlayBehaviour());
+                    } else {
+                        getAgent().addBehaviour(new IntelligentPlayBehaviour());
+                    }
                 }
-
             } catch (UnreadableException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

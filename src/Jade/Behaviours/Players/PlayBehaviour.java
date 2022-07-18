@@ -17,9 +17,9 @@ public class PlayBehaviour extends Behaviour {
         // Get a random free position from the 3x3 grid (0,1,2) x (0,1,2)
         // Send the message to the arbiter
         ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-        GridMessage content = new GridMessage(((StupidPlayerAgent) getAgent()).getGrid());
         try {
             decideMove();
+            GridMessage content = new GridMessage(((StupidPlayerAgent) getAgent()).getGrid());
             done = true;
             msg.setContentObject(content);
             msg.addReceiver(((StupidPlayerAgent) getAgent()).getArbiterAID());
@@ -32,11 +32,12 @@ public class PlayBehaviour extends Behaviour {
     }
 
     private void decideMove() {
-        ArrayList<Integer> freeCells = (ArrayList<Integer>) ((StupidPlayerAgent) getAgent())
-                .getGrid().getFreeCells();
+        StupidPlayerAgent a = ((StupidPlayerAgent) getAgent());
+        ArrayList<Integer> freeCells = (ArrayList<Integer>) a.getGrid().getFreeCells();
         int randomIndex = (int) (Math.random() * freeCells.size());
-        ((StupidPlayerAgent) getAgent()).getGrid().setCell(freeCells.get(randomIndex),
-                ((StupidPlayerAgent) getAgent()).getSymbol());
+        System.out.println("Random index: " + randomIndex);
+        System.out.println("Free cells: " + freeCells);
+        a.getGrid().setCell(freeCells.get(randomIndex), a.getSymbol());
     }
 
     @Override

@@ -15,7 +15,6 @@ public class IntelligentPlayerAgent extends Player {
         addBehaviour(new RegisterBehaviour("player", "Intelligent Player"));
         addBehaviour(new ReceiveOpponentBehaviour(false));
         addBehaviour(new CheckWinnerBehaviour());
-        addBehaviour(new EndGameBehaviour());
     }
 
     protected void takeDown() {
