@@ -8,6 +8,10 @@ The implementation was made in two different languages: Jade and Jason.
 The following two sections are made for the purpose of showing that, with the same multi-agent system,
 Jade requires **twice as much code** as Jason.
 
+## Javadoc
+
+A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/tictactoe)!
+
 ## Jade
 
 Java Agent Development Framework with:
@@ -83,10 +87,6 @@ The Player is the one who **makes the move**. There is no difference between the
 #### Player State Transition System
 
 ![Schema of the flow of the Arbiter](documentation/PlayerSchema.png)
-
-## Javadoc
-
-A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/tictactoe)!
 
 ## Game examples
 
