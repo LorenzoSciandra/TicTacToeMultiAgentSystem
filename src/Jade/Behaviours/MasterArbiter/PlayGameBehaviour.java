@@ -31,7 +31,7 @@ public class PlayGameBehaviour extends Behaviour {
         this.playerAgents = playerAgents;
         this.numPlayers = playerAgents.length;
         this.numArbiters = arbiterAgents.length;
-        this.numRounds = (int) Math.ceil(Math.log(numPlayers));
+        this.numRounds = (int) Math.ceil(log2(numPlayers));
         this.numRoundsPlayed = 0;
         this.currentPlayers = new ArrayList<AID>();
         for (int i = 0; i < playerAgents.length; i++) {
@@ -52,7 +52,9 @@ public class PlayGameBehaviour extends Behaviour {
      */
     @Override
     public void action() {
-        if (numPlayers % 2 == 0 && numArbiters >= numRounds) {
+        double log = log2(numPlayers);
+        double ceiling = Math.ceil(log);
+        if (log - ceiling == 0 && numArbiters >= numRounds) {
             if (step == 0) {
                 System.out.println("Assegno i giocatori e gli arbitri per il round: " + (numRoundsPlayed + 1));
                 assign_players_and_arbiters();
@@ -77,7 +79,6 @@ public class PlayGameBehaviour extends Behaviour {
                             }
                         }
                     } catch (UnreadableException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 } else {
@@ -150,6 +151,10 @@ public class PlayGameBehaviour extends Behaviour {
             }
         }
         currentPlayers = new ArrayList<AID>();
+    }
+
+    private static double log2(int x) {
+        return Math.log(x) / Math.log(2);
     }
 
 }
