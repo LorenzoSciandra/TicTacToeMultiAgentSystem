@@ -2,11 +2,11 @@
 
 ![LICENSE SHIELD](https://img.shields.io/badge/license-MIT-orange)
 
-A multi-agent, infinitely scalable, system where agents compete in tic-tac-toe tournaments.
+A multi-agent, **infinitely scalable**, system where agents compete in tic-tac-toe tournaments.
 The implementation was made in two different languages: Jade and Jason.
 
 The following two sections are made for the purpose of showing that, with the same multi-agent system,
-Jade requires twice as much code as Jason.
+Jade requires **twice as much code** as Jason.
 
 ## Jade
 
@@ -46,12 +46,12 @@ Here is the description of the agents:
 
 ### Master Arbiter
 
-The Master Arbiter is the one who organizes the tournament and it creates the matches. After waiting for all players and arbiters to register, proceed as follows:
+The Master Arbiter is the one who **organizes the tournament** and it creates the matches. After **waiting** for all players and arbiters to register, proceed as follows:
 
-1. Register himself and creates the list of all the players and arbiters and shuffles it;
-2. Creates a list of couples of players that have to play each other with an arbiter who will control the game. Notify the arbiter of the list of couples and wait for the arbiters to accept or reject the list;
-3. Wait untill all the matches are finished with a winner notified by the Arbiter;
-4. If there is only a single winner, he is the winner of the tournament and tells to everybody to terminate, otherwise he has to start the next round. So he creates a list of the winners of the previous round and go to step 2.
+1. **Register** himself and creates the list of all the players and arbiters and shuffles it;
+2. Creates a list of **couples of players** that have to play each other with an arbiter who will control the game. **Notify the arbiter** of the list of couples and wait for the arbiters to accept or reject the list;
+3. **Wait** until all the matches are **finished** with a winner notified by the Arbiter;
+4. If there is only a single winner, he is the winner of the tournament and **tells to everybody to terminate**, otherwise he has to start the next round. So he creates a list of the winners of the previous round and go to step 2.
 
 #### Master Arbiter State Transition System
 
@@ -59,12 +59,12 @@ The Master Arbiter is the one who organizes the tournament and it creates the ma
 
 ### Arbiter
 
-The Arbiter is the one who controls the progress of one game. His steps are:
+The Arbiter is the one who **controls the progress of one game**. His steps are:
 
-1. Register himself;
-2. Wait untill the Master Arbiter send to him the couple of players that he must control, or until he is notified that the tournament is finished;
-3. Send a message to the players with his symbol, the name of the opponent and if he is the first to make the move;
-4. Check every move of the players and if there is a winner, notify the Master Arbiter and the players that the game ended. If there is no winner, and the game is a tie, it repeats the game;
+1. **Register** himself;
+2. Wait until the Master Arbiter sends to him **the couple of players that he must control**, or until he is notified that the tournament is finished;
+3. **Send a message to the players** with his **symbol**, **the name of the opponent** and if he is the **first to make the move**;
+4. **Check every move** of the players and if there is a winner, **notify the Master Arbiter** and the players that the game ended. If there is no winner, and the game is a tie, it repeats the game;
 5. Go to step 2. So the Arbiter can play again, if the Master Arbiter wants to.
 
 #### Arbiter State Transition System
@@ -73,12 +73,12 @@ The Arbiter is the one who controls the progress of one game. His steps are:
 
 ### Player
 
-The Player is the one who makes the move. There is no difference between the two types of players except for the way they choose the move. The following steps are:
+The Player is the one who **makes the move**. There is no difference between the two types of players except for the way they choose the move. The following steps are:
 
-1. Register himself;
-2. Wait untill the Arbiter send to him the player he will play with, the symbol he will use and if he is the first to make the move;
-3. Until the game is finished, he makes the move, sends it to the Arbiter and waits for the move of the opponent;
-4. if he is the winner and there is more than one round to play go to step 2, otherwise wait for the Master Arbiter to terminate.
+1. **Register** himself;
+2. **Wait** until the Arbiter send to him the player he will play with, the symbol he will use and if he is the first to make the move;
+3. Until the game is finished, he makes the move, **sends it to the Arbiter** and waits for the move of the opponent;
+4. If he is the winner and there is more than one round to play go to step 2, otherwise **wait for the Master Arbiter to terminate**.
 
 #### Player State Transition System
 
