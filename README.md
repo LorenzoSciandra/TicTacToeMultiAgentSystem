@@ -3,7 +3,10 @@
 ![LICENSE SHIELD](https://img.shields.io/badge/license-MIT-orange)
 
 A multi-agent, infinitely scalable, system where agents compete in tic-tac-toe tournaments.
-The following implementation was made in two different languages:
+The implementation was made in two different languages: Jade and Jason.
+
+The following two sections are made for the purpose of showing that, with the same multi-agent system,
+Jade requires twice as much code as Jason.
 
 ## Jade
 
