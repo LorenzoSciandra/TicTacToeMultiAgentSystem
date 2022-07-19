@@ -31,7 +31,7 @@ The Master Arbiter is the one who organizes the tournament and it creates the ma
 3. Wait untill all the matches are finished with a winner notified by the Arbiter;
 4. If there is only a single winner, he is the winner of the tournament and tells to everybody to terminate, otherwise he has to start the next round. So he creates a list of the winners of the previous round and go to step 2.
 
-#### State Transition Systems
+#### Master Arbiter State Transition System
 
 ![Schema of the flow of the Master Arbiter](documentation/MasterArbiterSchema.png)
 
@@ -45,7 +45,7 @@ The Arbiter is the one who controls the progress of one game. His steps are:
 4. Check every move of the players and if there is a winner, notify the Master Arbiter and the players that the game ended. If there is no winner, and the game is a tie, it repeats the game;
 5. Go to step 2. So the Arbiter can play again, if the Master Arbiter wants to.
 
-#### State Transition Systems
+#### Arbiter State Transition System
 
 ![Schema of the flow of the Arbiter](documentation/ArbiterSchema.png)
 
@@ -58,7 +58,7 @@ The Player is the one who makes the move. There is no difference between the two
 3. Until the game is finished, he makes the move, sends it to the Arbiter and waits for the move of the opponent;
 4. if he is the winner and there is more than one round to play go to step 2, otherwise wait for the Master Arbiter to terminate.
 
-#### State Transition Systems
+#### Player State Transition System
 
 ![Schema of the flow of the Arbiter](documentation/PlayerSchema.png)
 
