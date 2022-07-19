@@ -64,7 +64,7 @@ The Player is the one who makes the move. There is no difference between the two
 
 ## Javadoc
 
-A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/javadoc)!
+A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/tictactoe)!
 
 ## Game examples
 
