@@ -2,11 +2,30 @@
 
 ![LICENSE SHIELD](https://img.shields.io/badge/license-MIT-orange)
 
-A multi-agent system where agents compete in tic-tac-toe tournaments.
+A multi-agent, infinitely scalable, system where agents compete in tic-tac-toe tournaments.
 The following implementation was made in two different languages:
 
-- **Jade**: Java Agent Development Framework
-- **Jason**: A Java-based interpreter for an extended version of AgentSpeak
+## Jade
+
+Java Agent Development Framework with:
+
+- 4 possible agents
+- 11 behaviours
+- 5 possible messages
+
+### Lines of code: Jade
+
+![Lines of code Jade](documentation/codecounter1.png)
+
+## Jason
+
+A Java-based interpreter for an extended version of AgentSpeak with:
+
+- 4 possible agents
+
+### Lines of code: Jason
+
+![Lines of code Jason](documentation/codecounter2.png)
 
 ## Tournament
 
