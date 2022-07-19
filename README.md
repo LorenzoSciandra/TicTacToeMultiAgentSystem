@@ -25,7 +25,7 @@ A Java-based interpreter for an extended version of AgentSpeak with:
 
 ### Lines of code: Jason
 
-![Lines of code Jason](documentation/codecounter2.png)
+<img src="documentation/codecounter2.png" width=90% height=90%>
 
 ## Tournament
 
