@@ -90,7 +90,7 @@ The Player is the one who **makes the move**. There is no difference between the
 
 ## Game examples
 
-For the sake of brevity, only tournament executions that end after the first round, i.e. with only 2 players, will be shown here. However, the program, as mentioned earlier, works with an arbitrary number of players, as long as it is a power of two and there are the right number of referees.
+For the sake of brevity, only tournament executions that end after the first round, i.e. with only 2 players, will be shown here. However, the program, as mentioned earlier, works with an arbitrary number of players, as long as it is a **power of two** and there are the right number of referees.
 
 ### JADE: 1
 
