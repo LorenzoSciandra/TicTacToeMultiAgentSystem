@@ -8,10 +8,6 @@ The implementation was made in two different languages: Jade and Jason.
 The following two sections are made for the purpose of showing that, with the same multi-agent system,
 Jade requires **twice as much code** as Jason.
 
-## Javadoc
-
-A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/tictactoe)!
-
 ## Jade
 
 Java Agent Development Framework with:
@@ -19,6 +15,11 @@ Java Agent Development Framework with:
 - 4 possible agents
 - 11 behaviours
 - 5 possible messages
+
+
+### Javadoc 
+
+A complete documentation of the Jade implementation (Javadoc style) is available [here](https://evilscript.eu/tictactoe)!
 
 ### Lines of code: Jade
 
