@@ -15,7 +15,7 @@ Java Agent Development Framework with:
 
 ### Lines of code: Jade
 
-![Lines of code Jade](documentation/codecounter1.png)
+<img src="documentation/codecounter1.png" style="max-width:60%"/>
 
 ## Jason
 
