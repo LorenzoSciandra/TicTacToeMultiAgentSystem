@@ -36,7 +36,7 @@ choose_second(Head2, [Head | [Head2 | Tail]], Tail).
 +!start_game
     :   step(2)
     <-  .print("I'm waiting all the proposal! From players and arbiters");
-        .wait(2500);
+        .wait(1000);
         .print("Starting game");
         .findall(Player, player(Player), Players);
         .length(Players, PlayersLength);
