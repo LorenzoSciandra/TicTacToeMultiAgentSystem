@@ -54,7 +54,7 @@ public class PlayGameBehaviour extends Behaviour {
     public void action() {
         double log = log2(numPlayers);
         double ceiling = Math.ceil(log);
-        if (log - ceiling == 0 && numArbiters >= numRounds) {
+        if (log - ceiling == 0 && numArbiters >= numRounds && numPlayers!=1) {
             if (step == 0) {
                 System.out.println("Assegno i giocatori e gli arbitri per il round: " + (numRoundsPlayed + 1));
                 assign_players_and_arbiters();
