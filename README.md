@@ -12,9 +12,9 @@ Jade requires **twice as much code** as Jason.
 
 Java Agent Development Framework with:
 
-- 4 possible agents
+- 4 agents
 - 11 behaviours
-- 5 possible messages
+- 5 messages
 
 
 ### Javadoc 
@@ -29,7 +29,7 @@ A complete documentation of the Jade implementation (Javadoc style) is available
 
 A Java-based interpreter for an extended version of AgentSpeak with:
 
-- 4 possible agents
+- 4 agents
 
 ### Lines of code: Jason
 
